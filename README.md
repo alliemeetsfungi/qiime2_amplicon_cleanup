@@ -6,3 +6,9 @@ reg text
 
 ## Purpose: 
 To make pipeline for SSU & 16S amplicon sequencing cleanup and taxonomic identification
+```
+
+code chunk
+
+
+```
