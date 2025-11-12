@@ -89,7 +89,7 @@ Instructions on importing sequences into a qiime2 artifact can be found [here](h
 ```
 qiime tools import \
   --type 'SampleData[PairedEndSequencesWithQuality]' \
-  --input-path path/to/directory/containing/fastq.qz/files \
+  --input-path path/to/directory/containing/gzipped/fastq/files \
   --input-format CasavaOneEightSingleLanePerSampleDirFmt \
   --output-path path/to/where/qiime2/artifact/will/be/saved/file-name.qza
 ```
@@ -140,11 +140,28 @@ zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 ```
 4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
 
-
-
-
-
-
+<br>**Import Forward sequences using Casava 1.8 single-end demultiplexed fastq method**
+<br><br><ins>Copy all foward sequences into new directory</ins>
+<br>All forward sequence files share a common suffix in their file names such as READ1.fastq.gz or R1_001.fastq.gz. Use this shared suffix, unique from the reverse reads (READ2.fastq.gz or R2_001.fastq.gz), to differentiate forward from reverse reads within the code.
+```
+cp /path/to/directory/*R1_001.fastq.gz \
+/path/to/new/directory
+```
+Import sequences into a Qiime2 artifact (.qza)
+```
+qiime tools import \
+  --type 'SampleData[SequencesWithQuality]' \
+  --input-path path/to/directory/containing/gzipped/forward/fastq/files \
+  --input-format CasavaOneEightSingleLanePerSampleDirFmt \
+  --output-path path/to/where/qiime2/artifact/will/be/saved/file-name.qza
+```
+Convert qiime artifcat into visualization file 
+```
+qiime demux summarize \
+  --i-data path/to/where/qiime2/artifact/will/be/saved/file-name.qza \
+  --o-visualization path/to/where/qiime2/artifact/will/be/saved/file-name.qzv
+```
+See paired-end section for next steps using the Qiime2 visualization file (.qzv)
 
 
 
