@@ -4,7 +4,7 @@ All of the code used here is compatible with the package Qiime2 amplicon version
 ## Purpose: 
 To make pipeline for SSU & 16S amplicon sequencing cleanup and taxonomic identification
 
-## Step 1: Prepare Files & Environment
+## STEP 1: Prepare Files & Environment
 ### Using local drive
 Make sure sequences are downloaded in an accessible location on the local drive.
 
@@ -81,7 +81,7 @@ source activate qiime2
 ```
 cd /path/to/working/directory
 ```
-## Step 2: Importing Data Into Qiime2
+## STEP 2: Importing Data Into Qiime2
 Instructions on importing sequences into a qiime2 artifact can be found [here](https://docs.qiime2.org/2024.10/tutorials/importing/)
 <br>Qiime2 visualization files (.qzv) can be viewed [here](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea)
 
@@ -163,10 +163,14 @@ qiime demux summarize \
 ```
 See paired-end section for next steps using the Qiime2 visualization file (.qzv)
 
-
-
-
-
+## STEP 3: Trim Primers From Sequences
+## STEP 4: DADA2 Trimming And Denoising
+## STEP 5: Export Feature Table For Culling
+## STEP 6: Import Databases For Taxonomic Identification
+## STEP 7: Taxonomic Assignment To Features
+## STEP 8: Filtering Taxonomic Tables
+## STEP 9: Merging Taxonomic Tables And Classification Files
+## STEP 10: Export Final Tables And Representative Sequences
 
 
 
