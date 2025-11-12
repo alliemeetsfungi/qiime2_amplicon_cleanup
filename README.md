@@ -85,7 +85,7 @@ cd /path/to/working/directory
 Instructions on importing sequences into a qiime2 artifact can be found [here](https://docs.qiime2.org/2024.10/tutorials/importing/)
 <br>Qiime2 visualization files (.qzv) can be viewed [here](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea)
 
-<ins>Import paired-end sequences using Casava 1.8 paired-end demultiplexed fastq method
+**Import paired-end sequences using Casava 1.8 paired-end demultiplexed fastq method**
 ```
 qiime tools import \
   --type 'SampleData[PairedEndSequencesWithQuality]' \
@@ -99,13 +99,13 @@ qiime demux summarize \
   --i-data path/to/where/qiime2/artifact/was/saved/file-name.qza \
   --o-visualization path/to/where/qiime2/visual/file/will/be/saved/file-name.qzv
 ```
-Go to Qiime2 Viewer on browser and upload the .qzv file.
+Go to Qiime2 Viewer on browser and upload the .qzv file and check to see if Forward and Reverse read counts are the same! [Here](https://forum.qiime2.org/t/demultiplexed-sequence-length-summary-identical-forward-and-reverse-for-emp-paired-end-reads/20692) is a forum with more information on this.
 
-<br>If you want to record or observe reads per sample, scroll to the very bottom of the "Overview" page and click "Download as TSV" to download per-sample-fastq-counts.tsv
-<br>Forward and Reverse read counts should be the same! [Here](https://forum.qiime2.org/t/demultiplexed-sequence-length-summary-identical-forward-and-reverse-for-emp-paired-end-reads/20692) is a forum with more information on this
+If you want to record or observe reads per sample, scroll to the very bottom of the "Overview" page and click "Download as TSV" to download per-sample-fastq-counts.tsv
 
-<br><br>If total read counts are different for forward and reverse sequences, check the following:
-<br>1. All files were uploaded correctly (should not be 0 bytes).
+<ins>If total read counts are different for Forward and Reverse sequences, check the following:</ins>
+
+1. All files were uploaded correctly (should not be 0 bytes).
 <br>Go to directory where sequencing files are kept
 ```
 cd path/to/sequencing/files.fastq.gz
@@ -115,13 +115,13 @@ Check file sizes by listing files from largest to smallest (smallest will be at 
 ls -lhS
 ``` 
 
-<br><br>2. Open per-sample-fastq-counts.tsv and search for samples where forward reads and reverse reads aren't the same
-<br>check the sample file for those that don't match up
+<br>2. Open per-sample-fastq-counts.tsv and search for samples where forward reads and reverse reads aren't the same
+<br>Check the sample file for those that don't match up
 ```
 zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 ```
 
-<br><br>3. Check locally stored files and re-upload any files that were found to be 0 bytes, or have mismatched reads in the per-sample-fastq-counts.tsv file
+<br>3. Check locally stored files and re-upload any files that were found to be 0 bytes, or have mismatched reads in the per-sample-fastq-counts.tsv file
 ```
 scp "/local/path/to/file.fastq.gz" \
 user@koa.its.hawaii.edu:/hpc/path/to/file/directory
