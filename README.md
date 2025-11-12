@@ -1,4 +1,4 @@
-# Qiime2_amplicon_cleanup
+# Qiime2 Amplicon Cleanup
 All of the code used here is compatible with the package Qiime2 amplicon version 2024.10
 
 ## Purpose: 
