@@ -13,7 +13,6 @@ Make sure sequences are downloaded in an accessible location on the local drive.
 ```
 Need code for this
 ```
-
 <br>Activate Qiime2 in terminal command line
 ```
 conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
@@ -25,41 +24,36 @@ For example, if your sequences are found in /home/project/sequences, set your wo
 cd /path/to/working/directory
 ```
 
-### Using HPC
+<br>### Using HPC
 
 Upload all fastq.gz files onto HPC
 ```
 scp -r "path/to/folder" \ 
 user@koa.its.hawaii.edu:/home/user/path/to/directory/for/files
 ```
+<br><ins>Installing Qiime2 on HPC</ins>
 
-<ins>Installing Qiime2 on HPC</ins>
-
-To access KOA on command line run the code below, then enter your UH password & designate two factor authentication preference
-<br>NOTE: password is invisible and does not show key strokes!
+To access KOA on command line run the code below, then enter your UH password & designate two factor authentication preference. NOTE: password is invisible and does not show key strokes!
 ```
 ssh userj@koa.its.hawaii.edu
 ```
-
-<br>Start interactive job
+Start interactive job
 ```
 srun -p shared --mem=100G -c 4 -t 06:00:00 --pty /bin/bash
 ```
 
-<br>Stay on you home directory for Qiime2 installation
+<br><ins>Stay on you home directory for Qiime2 installation</ins>
 <br>Load anaconda module (this is already installed on the HPC for all users)
 ```
 module load lang/Anaconda3/2024.02-1
 ```
 
 <br>Install Qiime2 
-<br>NOTE: line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything! 
-<br>You will use this name to activate Qiime2 on the HPC, so take note of whatever you name it.
 ``` 
 conda env create -n qiime2 --file https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
 ```
-
-<br>Check conda environments to make sure it installed correctly by looking for what you named your Qiime2 package during installation.
+<br>NOTE: line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything! You will use this name to activate Qiime2 on the HPC, so take note of whatever you name it.
+<br><br>Check conda environments to make sure it installed correctly by looking for what you named your Qiime2 package during installation.
 ```
 conda info - e
 #conda environments:                             
@@ -81,6 +75,7 @@ source activate qiime2
 ```
 cd /path/to/working/directory
 ```
+
 ## STEP 2: Importing Data Into Qiime2
 Instructions on importing sequences into a qiime2 artifact can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).
 <br>Qiime2 visualization files (.qzv) can be viewed [HERE](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea).
