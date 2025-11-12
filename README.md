@@ -16,7 +16,9 @@ Activate Qiime2 in terminal command line
 conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
 ```
 
-Set working directory along the path to where the directory where the sequences are stored
+
+Set working directory along the path to where the directory where the sequences are stored.
+
 For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
 ```
 cd /path/to/working/directory
