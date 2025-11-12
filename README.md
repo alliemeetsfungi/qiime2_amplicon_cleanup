@@ -130,7 +130,7 @@ Check to make sure they re-uploaded correctly
 ```
 zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 ```
-<br><br>4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
+4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
 
 
 
