@@ -49,7 +49,7 @@ ssh userj@koa.its.hawaii.edu
 srun -p shared --mem=100G -c 4 -t 06:00:00 --pty /bin/bash
 ```
 
-<br>Stay on you home directory for Qiime2
+<br>Stay on you home directory for Qiime2 installation
 <br>Load anaconda module (this is already installed on the HPC for all users)
 ```
 module load lang/Anaconda3/2024.02-1
@@ -70,11 +70,14 @@ conda info - e
 #base      /opt/apps/software/lang/Anaconda3/2024.02-1  
 ```
 
-<br>Activating Qiime2 on HPC
+<br><ins>Activating Qiime2 on HPC</ins>
+<br>NOTE: this is different than how conda is activated on a local drive or personal computer!
+<br>For each new session, make sure you perform the following prior to activating Qiime2:
+  1. Start an interactive job
+  2. Load anaconda module
 ```
 source activate qiime2
 ```
-<ins>NOTE: this is different than how conda is activated on a personal computer!</ins>
 
 <br>Set working directory along the path to where the directory where the sequences are stored.
 <br>For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
@@ -100,6 +103,16 @@ qiime demux summarize \
   --o-visualization path/to/where/qiime2/visual/file/will/be/saved/file-name.qzv
 ```
 Go to Qiime2 Viewer on browser and upload the .qzv file and check to see if Forward and Reverse read counts are the same! [Here](https://forum.qiime2.org/t/demultiplexed-sequence-length-summary-identical-forward-and-reverse-for-emp-paired-end-reads/20692) is a forum with more information on this.
+<br><ins>Record total reads</ins>
+
+<br>*Go to the "Interactive Quality Plot" tab*
+<br>Here, you can observe the quality of reads (y-axis) at a specific sequence length (x-axis) and assess (1) wether sequences should be trimmed and (2) how much they should be trimmed. The quality score tells us how confidently the nucleotide was called at that area, higher quality scores indicate higher confidence that the detected nucleotide is correct and not an error. Generally, quality scores below 20 are considered poor and unreliable reads which can lead to inacurate taxonomic identification later on.  
+<br><ins>Approach to deciding how much to trim:</ins>
+1. Observe how consistent the quality is by assessing the sequence length at which the quality begins to drop abrubptly, as well as how steep the drop in quality is.
+2. Determine at what sequence length the quality score begins to drop under 20.
+3. You can zoom in and out of the quality plots by highlighting regions of interest, and double clicking the plot to zoom back out again.
+4. Note that Reverse reads are generally lower in quality and may require more trimming than Forward reads.
+5. Take a screen shot of the quality plots for your records.
 
 If you want to record or observe reads per sample, scroll to the very bottom of the "Overview" page and click "Download as TSV" to download per-sample-fastq-counts.tsv
 
@@ -114,14 +127,12 @@ Check file sizes by listing files from largest to smallest (smallest will be at 
 ```
 ls -lhS
 ``` 
-
-<br>2. Open per-sample-fastq-counts.tsv and search for samples where forward reads and reverse reads aren't the same
+2. Open per-sample-fastq-counts.tsv and search for samples where forward reads and reverse reads aren't the same.
 <br>Check the sample file for those that don't match up
 ```
 zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 ```
-
-<br>3. Check locally stored files and re-upload any files that were found to be 0 bytes, or have mismatched reads in the per-sample-fastq-counts.tsv file
+3. Check locally stored files and re-upload any files that were found to be 0 bytes, or have mismatched reads in the per-sample-fastq-counts.tsv file
 ```
 scp "/local/path/to/file.fastq.gz" \
 user@koa.its.hawaii.edu:/hpc/path/to/file/directory
@@ -131,9 +142,6 @@ Check to make sure they re-uploaded correctly
 zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 ```
 4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
-
-
-
 
 
 
