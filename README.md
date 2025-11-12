@@ -76,7 +76,7 @@ source activate qiime2
 cd /path/to/working/directory
 ```
 
-## STEP 2: Importing Data Into Qiime2
+## STEP 2: Importing Sequences Into Qiime2
 Instructions on importing sequences into a qiime2 artifact can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).
 <br>Qiime2 visualization files (.qzv) can be viewed [HERE](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea).
 
