@@ -5,6 +5,8 @@ All of the code used here is compatible with the package Qiime2 amplicon version
 To make pipeline for SSU & 16S amplicon sequencing cleanup and taxonomic identification
 
 ## STEP 1: Prepare Files & Environment
+Instructions for downloading Qiime2 can be found [HERE](https://docs.qiime2.org/2024.10/install/native/). The instructions below include code for installing on macOS (Apple Silicon) for using a local drive, and  linux for installing on the HPC, but can be applied to other machines with modification.
+<br>
 ### Using local drive
 Make sure sequences are downloaded in an accessible location as fastq.gz files on the local drive.
 <br><br>Compress each fastq file in a directory into fastq.gz files
@@ -13,7 +15,27 @@ gzip path/to/fastq/sequence/files/*.fastq
 ```
 <br><ins>Download Qiime2 on local drive</ins>
 ```
-Need code for this
+CONDA_SUBDIR=osx-64 conda env create -n qiime2-amplicon-2024.10 --file https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-osx-conda.yml
+conda activate qiime2-amplicon-2024.10
+conda config --env --set subdir osx-64
+```
+You should get prompts that indicate downloading is occuring such as:
+<br>Channels:
+<br> - https://packages.qiime2.org/qiime2/2024.10/amplicon/released
+<br> - conda-forge
+<br> - bioconda
+<br> - defaults
+<br> - mamba
+<br>Platform: osx-64
+<br>Collecting package metadata (repodata.json): done
+<br>Solving environment: done
+<br><br>Downloading and Extracting Packages:
+openjdk-22.0.1       | 168.9 MB  | #####################################################################################4                   |  82%                                 
+<br><br>Preparing transaction: done                                                                            <br>Verifying transaction: done                                                                            <br>Executing transaction: done
+<br><br>To activate this environment, use                                                                      <br><br>$ conda activate qiime2-amplicon-2024.10                                                               <br><br>To deactivate an active environment, use                                                               <br><br> $ conda deactivate 
+<br><br><ins>If nothing appears, run the code below and re-run the installation code </ins>
+```
+conda config --set channel_priority flexible
 ```
 Activate Qiime2 in terminal command line
 ```
