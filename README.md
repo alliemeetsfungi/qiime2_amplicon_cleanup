@@ -45,12 +45,13 @@ conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
 ```
 
 <br>Set working directory along the same path to the directory containing gzipped sequences. <br>
-For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
+
 ```
 cd /path/to/working/directory
 ```
-
-### Using HPC
+For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
+<br><br>
+### Using the HPC
 
 Upload all fastq.gz files onto HPC
 ```
