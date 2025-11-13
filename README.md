@@ -19,7 +19,8 @@ CONDA_SUBDIR=osx-64 conda env create -n qiime2-amplicon-2024.10 --file https://d
 conda activate qiime2-amplicon-2024.10
 conda config --env --set subdir osx-64
 ```
-**The following output (or very similar) should be produced:**
+NOTE: line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything! You will use this name to activate Qiime2 on the HPC, so take note of whatever you name it.
+<br><br>**The following output (or very similar) should be produced in the terminal window:**
 <br>Channels:
 <br> - https://packages.qiime2.org/qiime2/2024.10/amplicon/released
 <br> - conda-forge
