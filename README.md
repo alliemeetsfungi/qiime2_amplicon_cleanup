@@ -438,7 +438,23 @@ path/to/local/drive/directory
 <br><br>
 ## STEP 7: Import Databases For Taxonomic Identification
 The following databases are the most commonly used for our studies. Some require files to be downloaded from the database webpage, while other databases can be pulled directly through Qiime2.
-<br><br>
+<br><br><ins>SILVA</ins>
+<br>This database is used for both small ribosomal subunits 16S & 18S
+<br><br>Pull database files straight from silva database, see [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details. The code here is based on version 138.2, and reference sequences extracted are in rRNA format and need to be transcribed before using for taxonomic identification.
+<br><br>Pull data from silva repository
+```
+qiime rescript get-silva-data \
+  --p-version '138.2' \
+  --p-target 'SSURef_NR99' \
+  --o-silva-sequences desired/path/to/files/silva-138.2-rna-ref-seqs.qza \
+  --o-silva-taxonomy desired/path/to/files/silva-138.2-ref-tax.qza
+```
+Reverse transcribe reference sequences (rRNA) for assignment compatibility (rDNA)
+```
+qiime rescript reverse-transcribe \
+  --i-rna-sequences path/to/file/silva-138.2-rna-ref-seqs.qza \
+  --o-dna-sequences desired/path/to/file/silva-138.2-ref-seqs.qza
+```
 ### Fungal Databases
 <br><ins>Eukaryome</ins>
 <br>Files can be downloaded [HERE](https://eukaryome.org/qiime2/) for Qiime2 compatability. This code is based on QIIME2_EUK_SSU Version 2.0, however databases for LSU, ITS, and other packages are available.
@@ -491,25 +507,18 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 --input-path path/to/file/maarjam_database_SSU.qiime.txt \
 --output-path desired/path/to/file/maarjam-ref-tax.qza
 ```
-  
 
-## 6.3 SILVA 138.2 ##
-#~~~~~~~~~~~~~~~~~~~#
-# Pull straight from silva database; see https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475
-	#NOTE: the reference sequences pulled are rna format, need to reverse transcribe!
+### Bacterial Databases
+<ins>Genome Taxonomy Database (GTDB)</ins>
+<br>Database website can be found [HERE](https://gtdb.ecogenomic.org/). Sequences can be pulled using Qiime2 with the code below based on GTDP Version 220.0
+```
+qiime rescript get-gtdb-data \
+  --p-version 220.0 \
+  --p-domain Bacteria \
+  --output-dir desired/directory/path/for/files
+```
 
-# Pull data from silva repository	
-qiime rescript get-silva-data \
-  --p-version '138.2' \
-  --p-target 'SSURef_NR99' \
-  --o-silva-sequences database_files/SILVA_138.2/silva-138.2-rna-ref-seqs.qza \
-  --o-silva-taxonomy database_files/silva-138.2-ref-tax.qza
 
-# Reverse transcribe reference sequences (rRNA) for assignment compatibility (rDNA)
-qiime rescript reverse-transcribe \
-  --i-rna-sequences database_files/SILVA_138.2/silva-138.2-rna-ref-seqs.qza \
-  --o-dna-sequences database_files/silva-138.2-ref-seqs.qza
-  
 <br><br>
 ## STEP 8: Taxonomic Assignment To Features
 
