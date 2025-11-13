@@ -19,7 +19,7 @@ CONDA_SUBDIR=osx-64 conda env create -n qiime2-amplicon-2024.10 --file https://d
 conda activate qiime2-amplicon-2024.10
 conda config --env --set subdir osx-64
 ```
-You should get prompts that indicate downloading is occuring such as:
+**The following output (or very similar) should be produced:**
 <br>Channels:
 <br> - https://packages.qiime2.org/qiime2/2024.10/amplicon/released
 <br> - conda-forge
@@ -30,14 +30,15 @@ You should get prompts that indicate downloading is occuring such as:
 <br>Collecting package metadata (repodata.json): done
 <br>Solving environment: done
 <br><br>Downloading and Extracting Packages:
-openjdk-22.0.1       | 168.9 MB  | #####################################################################################4                   |  82%                                 
+openjdk-22.0.1       | 168.9 MB  | #####################################################################################4                   |  82%
 <br><br>Preparing transaction: done                                                                            <br>Verifying transaction: done                                                                            <br>Executing transaction: done
 <br><br>To activate this environment, use                                                                      <br><br>$ conda activate qiime2-amplicon-2024.10                                                               <br><br>To deactivate an active environment, use                                                               <br><br> $ conda deactivate 
 <br><br><ins>If nothing appears, run the code below and re-run the installation code </ins>
 ```
 conda config --set channel_priority flexible
 ```
-Activate Qiime2 in terminal command line
+Once the above output is shown in the terminal, Qiime2 can be activated
+<br><br>Activate Qiime2 in terminal command line
 ```
 conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
 ```
