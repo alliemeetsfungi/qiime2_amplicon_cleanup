@@ -43,8 +43,7 @@ Once the above output is shown in the terminal, Qiime2 can be activated
 ```
 conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
 ```
-
-<br>Set working directory along the same path to the directory containing gzipped sequences. <br>
+Set working directory along the same path to the directory containing gzipped sequences. <br>
 
 ```
 cd /path/to/working/directory
