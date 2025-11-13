@@ -39,7 +39,7 @@ openjdk-22.0.1       | 168.9 MB  | #############################################
 conda config --set channel_priority flexible
 ```
 Once the above output is shown in the terminal, Qiime2 can be activated
-<br><br>Activate Qiime2 in terminal command line
+<br><br><ins>Activate Qiime2 in terminal command line</ins>
 ```
 conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
 ```
