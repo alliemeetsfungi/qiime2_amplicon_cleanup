@@ -160,9 +160,9 @@ Check to make sure they re-uploaded correctly
 zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 ```
 4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
-<br>
+<br><br>
 ### Import Forward sequences using Casava 1.8 single-end demultiplexed fastq method
-<br><br><ins>Copy all foward sequences into new directory</ins>
+<br><ins>Copy all foward sequences into new directory</ins>
 <br>All forward sequence files share a common suffix in their file names such as READ1.fastq.gz or R1_001.fastq.gz. Use this shared suffix, unique from the reverse reads (READ2.fastq.gz or R2_001.fastq.gz), to differentiate forward from reverse reads within the code.
 ```
 cp /path/to/directory/*R1_001.fastq.gz \
@@ -508,6 +508,8 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 --output-path desired/path/to/file/maarjam-ref-tax.qza
 ```
 
+<br><br><ins>UNITE/ins>
+
 ### Bacterial Databases
 <ins>Genome Taxonomy Database (GTDB)</ins>
 <br>Database website can be found [HERE](https://gtdb.ecogenomic.org/). Sequences can be pulled using Qiime2 with the code below based on GTDP Version 220.0
@@ -520,7 +522,76 @@ qiime rescript get-gtdb-data \
 <br>
 
 ## STEP 8: Taxonomic Assignment To Features
+Using the qiime artifact created by DADA2 (feature-rep-seqs.qza) containing the sequences associated with each identified feature (representative sequences) as the input file for BLAST searching each features taxonomic association.
+<br><br>For each database, run unnassigned sequences with 95%, 90%, and 80% identity rates to allow for higher rates of taxonomic assignment by loosening the sequence consensus calling requiremnts. If multiple databases are available, start with BLAST searching the sequences through the databse believed to provide the most assignments at all three query coverage targets first, then running the remainder of the unassigned sequences through the next best databse.
+<br><br><ins>Database ONE</ins>
+<br>*95% Identity*
+<br>First blast search will be run with all parameters at the default (NEED TO CHECK THIS), except setting the percent identity (--p-perc-identity) to 95% (0.95)
+```
+qiime feature-classifier classify-consensus-blast \
+  --i-query path/to/dada2/output/file/feature-rep-seqs.qza \ 
+  --i-reference-reads path/to/database/ref-seqs.qza \ # Database Reference Sequences
+  --i-reference-taxonomy path/to/database/rref-tax.qza \ # Database Reference Taxa
+  --p-maxaccepts 1 \ # Default value
+  --p-perc-identity 0.95 \ # Percent identity is reduced in the next query
+  --p-query-cov 0.90 \ # Default value
+  --p-strand both \ # Default value
+  --p-evalue 1e-50 \ # Default value
+  --p-min-consensus 0.51 \ # Default value
+  --output-dir path/to/search/results/database/directory-95 # Makes new directory containing multiple files, will err if you pre-make it!
+```
+Filter out unassigned sequences into their own file
+```
+qiime taxa filter-seqs \
+  --i-sequences path/to/dada2/output/file/feature-rep-seqs.qza \ # Input is the file you wanted to be filtered (input file for BLAST search feature-rep-seqs.qza file)
+  --i-taxonomy path/to/search/results/directory-95/classification.qza \ # the classification.qza file found in the classifier output directory
+  --p-include unassigned \ # Key word for what you are filtering for (i.e, keeping)
+  --o-filtered-sequences path/to/search/results/directory-95/unassigned-rep-seqs.qza # Remaining sequences that did not have taxa assigned under these BLAST search parameteres
+```
+<br><br>*90% Identity*
+```
+qiime feature-classifier classify-consensus-blast \
+  --i-query path/to/search/results/directory-95/unassigned-rep-seqs.qza \ # Change to ouput file from the previous filtered sequences that remain unassigned
+  --i-reference-reads path/to/database/ref-seqs.qza \ # Stays the same
+  --i-reference-taxonomy path/to/database/rref-tax.qza \ # Stays the same
+  --p-maxaccepts 1 \
+  --p-perc-identity 0.950 \ # This percent identity is defined
+  --p-query-cov 0.90 \
+  --p-strand both \
+  --p-evalue 1e-50 \
+  --p-min-consensus 0.51 \
+  --output-dir path/to/search/results/database/directory-90 # makes new directory, will err if you pre-make it!
+```
 
+qiime taxa filter-seqs \
+  --i-sequences path/to/search/results/directory-95/unassigned-rep-seqs.qza \ # Use the input file for the BLAST search unassigned-rep-seqs.qza)
+  --i-taxonomy path/to/search/results/database/directory-90/classification.qza \ # nput resulting classification.qza file
+  --p-include unassigned \
+  --o-filtered-sequences taxa_id/ssu/euk-90/unassigned-rep-seqs.qza # Remaining sequences that did not have taxa assigned under these BLAST search parameteres
+```
+<br><br>*80% Identity*
+
+```
+qiime feature-classifier classify-consensus-blast \
+  --i-query taxa_id/ssu/euk-90/unassigned-rep-seqs.qza \
+  --i-reference-reads database_files/eukaryome-ref-seqs.qza \
+  --i-reference-taxonomy database_files/eukaryome-ref-tax.qza \
+  --p-maxaccepts 1 \
+  --p-perc-identity 0.80 \
+  --p-query-cov 0.90 \
+  --p-strand both \
+  --p-evalue 1e-50 \
+  --p-min-consensus 0.51 \
+  --output-dir taxa_id/ssu/euk-80
+
+qiime taxa filter-seqs \
+  --i-sequences taxa_id/ssu/euk-90/unassigned-rep-seqs.qza \
+  --i-taxonomy taxa_id/ssu/euk-80/classification.qza \
+  --p-include unassigned \
+  --o-filtered-sequences taxa_id/ssu/euk-80/unassigned-rep-seqs.qza
+```
+Run remaining unassignd sequences through the next databse!
+<br><br><ins>Database TWO</ins>
 <br><br>
 ## STEP 9: Filtering Taxonomic Tables
 
