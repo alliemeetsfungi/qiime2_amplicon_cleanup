@@ -199,7 +199,10 @@ This section uses cutadapt, the handbook can be found [HERE](https://docs.qiime2
 <br><br><ins>Fungi small ribosomal subunit (18s) V3-V4 amplicon using 18S-82F/Euk-516r primers</ins>. See Jason Baer's paper [HERE](https://academic.oup.com/ismej/article/19/1/wraf228/8284954#supplementary-data).
   <br>18S-82F (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>Euk-516R (Reverse Primer): 5′-ACCAGACTTGCCCTCC-3′
-
+<br><br><ins>Orchid Mycorrhizal Fungi (OMF) Internal Transcribed Spacer 2 (ITS2) amplicon using fITS7 paired with either Tul1F or Tul2F</ins>. See Wang et al. 2023 [HERE](https://nph.onlinelibrary.wiley.com/doi/full/10.1111/nph.19385).
+  <br>fITS7 (Forward Primer): 5′-GTGARTCATCGAATCTTTG-3′
+  <br>Tul1F (Reverse Primer): 5′-CGTYGGATCCCTYGGC-3′
+  <br>Tul2F (Reverse Primer): 5′-TGGATCCCTTGGCACGTC-3′
 <br><br>
 ### Trim Primers From Paired-end Sequences
 <br>This method trims primers based on primer sequence rather than length
