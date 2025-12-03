@@ -714,7 +714,8 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/database/directory-80/unassigned-table.qza
 ```
-
+<br>
+Repeat these steps for the second database query results in sequence
 <br><br>
 ## STEP 10: Merging Taxonomic Tables And Classification Files
 
