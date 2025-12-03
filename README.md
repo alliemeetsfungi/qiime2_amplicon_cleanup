@@ -555,7 +555,7 @@ qiime taxa filter-seqs \
   --p-include unassigned \ # Key word for what you are filtering for (i.e, keeping)
   --o-filtered-sequences path/to/search/results/directory-95/unassigned-rep-seqs.qza # Remaining sequences that did not have taxa assigned under these BLAST search parameteres
 ```
-<br><br>*90% Identity*
+<br>*90% Identity*
 ```
 qiime feature-classifier classify-consensus-blast \
   --i-query path/to/search/results/directory-95/unassigned-rep-seqs.qza \ # Change to ouput file from the previous filtered sequences that remain unassigned
@@ -569,7 +569,8 @@ qiime feature-classifier classify-consensus-blast \
   --p-min-consensus 0.51 \
   --output-dir path/to/search/results/database/directory-90 # makes new directory, will err if you pre-make it!
 ```
-
+Filter out unassigned sequences into their own file
+```
 qiime taxa filter-seqs \
   --i-sequences path/to/search/results/directory-95/unassigned-rep-seqs.qza \ # Use the input file for the BLAST search unassigned-rep-seqs.qza)
   --i-taxonomy path/to/search/results/database/directory-90/classification.qza \ # nput resulting classification.qza file
