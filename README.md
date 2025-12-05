@@ -921,8 +921,7 @@ qiime tools export \
 
 sed 's/\t/,/g' path/to/results/directory/taxonomy/taxonomy.tsv > path/to/results/directory/taxonomy/taxonomy.csv
 ```
-<br>
-<ins> Accessing final files </ins><br>
+<br><ins>Accessing final files</ins><br>
 If you ran the pipeline on the HPC, you can log into your HPC accound and download the files. Alternatively, you can download them using the code belwo on the command line.
 ```
 # Download an entire directory
