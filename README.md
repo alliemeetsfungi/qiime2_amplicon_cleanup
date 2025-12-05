@@ -886,7 +886,7 @@ NOTE: The directory for the final merged table is set to be where you want all o
 ## STEP 11: Export Final Tables And Representative Sequences
 Now we have all of our final tables ready to export for furthing cleaning by asv & sample culling and decontam runs.
 <br>
-*Export feature (ASV) table (feature-table.qza)*<br>
+*Export Feature (ASV) Table (feature-table.qza)*<br>
 Convert the Qiime2 artifact into a .biom file
 ```
 qiime tools export \
@@ -904,5 +904,22 @@ If you prefer to use a .csv file (which programs such as R Studio can play nicer
 ```
 sed 's/\t/,/g' path/to/results/directory/feature-table/final-feature-table.tsv > path/to/results/directory/feature-table/final-feature-table.csv
 ```
+<br>
+*Export Representative Sequences (feature-rep-seqs.qza)*<br>
+The code below converts the Qiime2 artifact containing the representative sequnces into a fasta file automatically names dna-sequences.fasta file inside of the directory named "rep-seqs"
+```
+qiime tools export \
+  --input-path path/to/results/directory/feature-rep-seqs.qza \
+  --output-path path/to/results/directory/rep-seqs
+  ```
+<br>
+*Export Taxonomy Table (feature-rep-seqs.qza)*<br>
+The code below converts the Qiime2 artifact containing the final taxa table (made in step 10: classification_merged_final.qza) into a .tsv file automatically named taxonomy.tsv inside of the directory named "taxonomy". Similarly as was seen for the feature table, if you prefer a .csv file you can convert the .tsv into a .csv file.
+```
+qiime tools export \
+  --input-path path/to/final/results/directory/classification_merged_final.qza \
+  --output-path path/to/results/directory/taxonomy
+
+sed 's/\t/,/g' path/to/results/directory/taxonomy/taxonomy.tsv > path/to/results/directory/taxonomy/taxonomy.csv
 
 
