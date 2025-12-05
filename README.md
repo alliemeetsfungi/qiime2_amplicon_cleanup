@@ -871,7 +871,7 @@ qiime metadata tabulate \
   --m-input-file path/to/search/results/database/classification_merged4.qza \
   --o-visualization path/to/search/results/database/classification_merged4.qzv
 
-# Merge final tables together to make one completely merged classification artifacts
+# Merge final tables together to make one completely merged classification artifact
 qiime feature-table merge-taxa \
   --i-data path/to/search/results/database/classification_merged3.qza \
   --i-data path/to/search/results/database/classification_merged4.qza \
@@ -879,15 +879,30 @@ qiime feature-table merge-taxa \
 
 qiime metadata tabulate \
   --m-input-file path/to/search/results/database/classification_merged_final.qza \
-  --o-visualization path/to/search/results/database/classification_merged_final.qzv
+  --o-visualization path/to/final/results/directory/classification_merged_final.qzv
 ```
-
-
-
-
+NOTE: The directory for the final merged table is set to be where you want all of your final results to be for easy organization
 
 ## STEP 11: Export Final Tables And Representative Sequences
-
-
+Now we have all of our final tables ready to export for furthing cleaning by asv & sample culling and decontam runs.
+<br>
+*Export feature (ASV) table (feature-table.qza)*<br>
+Convert the Qiime2 artifact into a .biom file
+```
+qiime tools export \
+  --input-path path/to/results/directory/feature-table.qza \
+  --output-path path/to/results/directory/feature-table
+```
+This creates a directory named "feature-table" that contains a feature-table.biom file. We will now convert this into a .tsv file
+```
+biom convert \
+  --input-fp path/to/results/directory/feature-table/feature-table.biom \
+  --output-fp path/to/results/directory/feature-table/final-feature-table.tsv \
+  --to-tsv
+```
+If you prefer to use a .csv file (which programs such as R Studio can play nicer with), convert the .tsv file into a .csv file
+```
+sed 's/\t/,/g' path/to/results/directory/feature-table/final-feature-table.tsv > path/to/results/directory/feature-table/final-feature-table.csv
+```
 
 
