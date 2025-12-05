@@ -827,8 +827,60 @@ qiime metadata tabulate \
 Upload each visualization file and record the number of features present
 <br><br>
 <ins>Merging Classification Tables</ins>
+<br>When mergering classification tables, it is essential that the classification table with the least amount of classified taxa is listed as the first input table. Otherwise, the output table will come out only containing the taxa from the classification file with the most taxa present.
+```
+qiime feature-table merge-taxa \
+  --i-data path/to/search/results/database/directory-90/classification.qza \
+  --i-data path/to/search/results/database/directory-95/classification.qza \
+  --o-merged-data path/to/search/results/database/classification_merged1.qza
+```
+Then check to make sure they merged by converting the output Qiime2 artifact into a visualization file, uploading it onto the Qiime2 viewer, and observing if the number of features that are present is equal to the sum of both of the classification files you merged.
+```
+qiime metadata tabulate \
+  --m-input-file path/to/search/results/database/classification_merged1.qza \
+  --o-visualization path/to/search/results/database/classification_merged1.qzv
+```
+Repeat these steps until all of the classification artifacts are merged. There is multiple ways to do this, I prefer to mkae multiple merge files that I then merge together at the end. The code below represents this approach but can be modified for preference
+```
+qiime feature-table merge-taxa \
+  --i-data path/to/search/results/NEW-database/directory-95/classification.qza \
+  --i-data path/to/search/results/database/directory-80/classification.qza \
+  --o-merged-data path/to/search/results/database/classification_merged2.qza
 
+# Convert and check feature counts make sense
+qiime metadata tabulate \
+  --m-input-file path/to/search/results/database/classification_merged2.qza \
+  --o-visualization path/to/search/results/database/classification_merged2.qzv
 
+qiime feature-table merge-taxa \
+  --i-data path/to/search/results/NEW-database/directory-90/classification.qza \
+  --i-data path/to/search/results/NEW-database/directory-80/classification.qza \
+  --o-merged-data path/to/search/results/database/classification_merged3.qza
+
+qiime metadata tabulate \
+  --m-input-file path/to/search/results/database/classification_merged3.qza \
+  --o-visualization path/to/search/results/database/classification_merged3.qzv
+
+# Merge first two sets of merged classification artifacts
+qiime feature-table merge-taxa \
+  --i-data path/to/search/results/database/classification_merged2.qza \
+  --i-data path/to/search/results/database/classification_merged1.qza \
+  --o-merged-data path/to/search/results/database/classification_merged4.qza
+
+qiime metadata tabulate \
+  --m-input-file path/to/search/results/database/classification_merged4.qza \
+  --o-visualization path/to/search/results/database/classification_merged4.qzv
+
+# Merge final tables together to make one completely merged classification artifacts
+qiime feature-table merge-taxa \
+  --i-data path/to/search/results/database/classification_merged3.qza \
+  --i-data path/to/search/results/database/classification_merged4.qza \
+  --o-merged-data path/to/search/results/database/classification_merged_final.qza
+
+qiime metadata tabulate \
+  --m-input-file path/to/search/results/database/classification_merged_final.qza \
+  --o-visualization path/to/search/results/database/classification_merged_final.qzv
+```
 
 
 
