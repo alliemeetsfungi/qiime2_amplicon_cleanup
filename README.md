@@ -51,7 +51,7 @@ conda config --env --set subdir osx-64
 <br><br>*$ conda activate qiime2-amplicon-2024.10*
 <br><br>*To deactivate an active environment, use*
 <br><br> *$ conda deactivate*
-<br><br><ins>If nothing appears, run the code below and re-run the installation code </ins>
+<br><br><ins>If nothing appears, run the code below and re-run the installation code</ins>
 ```
 conda config --set channel_priority flexible
 ```
@@ -59,12 +59,11 @@ Once the above output is shown in the terminal, Qiime2 can be activated in termi
 ```
 conda activate /path/to/qiime2/on/local/drive/qiime2-amplicon-2024.10
 ```
-<br>
 Once you have activated Qiime2, set your working directory along the same path to the directory containing the gzipped sequence files (.fastq.gz). For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project.
 ```
 cd /path/to/working/directory
 ```
-<br>
+
 ### Installing Qiime2 on the HPC
 To access KOA on the command line run the code below, then enter your UH password & designate two factor authentication preference. NOTE: password is invisible and does not show key strokes!
 ```
