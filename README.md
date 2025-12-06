@@ -50,54 +50,49 @@ conda config --env --set subdir osx-64
 <br><br>*To activate this environment, use*
 <br><br>*$ conda activate qiime2-amplicon-2024.10*
 <br><br>*To deactivate an active environment, use*
-<br><br> *$ conda deactivate *
+<br><br> *$ conda deactivate*
 <br><br><ins>If nothing appears, run the code below and re-run the installation code </ins>
 ```
 conda config --set channel_priority flexible
 ```
-Once the above output is shown in the terminal, Qiime2 can be activated
-<br><br><ins>Activate Qiime2 in terminal command line</ins>
+Once the above output is shown in the terminal, Qiime2 can be activated in terminal command line by running:
 ```
-conda activate /Users/yo/miniconda/envs/qiime2-amplicon-2024.10
+conda activate /path/to/qiime2/on/local/drive/qiime2-amplicon-2024.10
 ```
-Set working directory along the same path to the directory containing gzipped sequences. <br>
-
+<br>
+Once you have activated Qiime2, set your working directory along the same path to the directory containing the gzipped sequence files (.fastq.gz). For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project.
 ```
 cd /path/to/working/directory
 ```
-For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
+
 <br><br>
-### Using the HPC
-
-
-<br><ins>Installing Qiime2 on HPC</ins>
-
-To access KOA on command line run the code below, then enter your UH password & designate two factor authentication preference. NOTE: password is invisible and does not show key strokes!
+### Installing Qiime2 on the HPC
+To access KOA on the command line run the code below, then enter your UH password & designate two factor authentication preference. NOTE: password is invisible and does not show key strokes!
 ```
-ssh userj@koa.its.hawaii.edu
+ssh user@koa.its.hawaii.edu
 ```
-Start interactive job
+In order to download and activate packages you must first start an interactive job, here is an example of how to do that
 ```
-srun -p shared --mem=100G -c 4 -t 06:00:00 --pty /bin/bash
+srun -p shared --mem=60G -c 4 -t 06:00:00 --pty /bin/bash
 ```
-<br><ins>Stay on you home directory for Qiime2 installation</ins>
-<br>Load anaconda module (this is already installed on the HPC for all users)
+<br><ins>Stay on your home directory for Qiime2 installation</ins>
+<br>Load anaconda module (this is already installed on KOA for all users)
 ```
 module load lang/Anaconda3/2024.02-1
 ```
-Install Qiime2 
+Now you can install Qiime2. NOTE: the line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything. You will use this name to activate Qiime2 on the HPC, so **take note of whatever you name it!**
 ``` 
 conda env create -n qiime2 --file https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
 ```
-NOTE: line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything! You will use this name to activate Qiime2 on the HPC, so take note of whatever you name it.
-<br><br>Check conda environments to make sure it installed correctly by looking for what you named your Qiime2 package during installation.
+<br><br>
+Check the conda environment to make sure it installed correctly by looking for what you named your Qiime2 package during installation.
 ```
 conda info - e
-#conda environments:                             
-#qiime2    /home/alliej/.conda/envs/qiime2
-#base      /opt/apps/software/lang/Anaconda3/2024.02-1  
 ```
-
+Here is an example of what is printed on my command line when I run the code above:<br>
+conda environments:                             
+qiime2    /home/alliej/.conda/envs/qiime2
+base      /opt/apps/software/lang/Anaconda3/2024.02-1  
 <br><ins>Activating Qiime2 on HPC</ins>
 <br>NOTE: this is different than how conda is activated on a local drive or personal computer!
 <br>For each new session, make sure you perform the following prior to activating Qiime2:
