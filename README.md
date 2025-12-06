@@ -78,20 +78,21 @@ srun -p shared --mem=60G -c 4 -t 06:00:00 --pty /bin/bash
 ```
 module load lang/Anaconda3/2024.02-1
 ```
-Now you can install Qiime2. NOTE: the line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything. You will use this name to activate Qiime2 on the HPC, so **take note of whatever you name it!**
+Now you can install Qiime2.<br>
+NOTE: the line after -n is what the environment will be named, in the code below it is "qiime2" but could be anything. You will use this name to activate Qiime2 on the HPC, so **take note of whatever you name it!**
 ``` 
 conda env create -n qiime2 --file https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
 ```
-<br><br>
+<br>
 Check the conda environment to make sure it installed correctly by looking for what you named your Qiime2 package during installation.
 ```
 conda info - e
 ```
 Here is an example of what is printed on my command line when I run the code above:<br>
-conda environments:                             
-qiime2    /home/alliej/.conda/envs/qiime2
-base      /opt/apps/software/lang/Anaconda3/2024.02-1  
-<br><ins>Activating Qiime2 on HPC</ins>
+conda environments:<br>
+qiime2    /home/alliej/.conda/envs/qiime2<br>
+base      /opt/apps/software/lang/Anaconda3/2024.02-1<br><br>
+<ins>Activating Qiime2 on HPC</ins>
 <br>NOTE: this is different than how conda is activated on a local drive or personal computer!
 <br>For each new session, make sure you perform the following prior to activating Qiime2:
   1. Start an interactive job
@@ -99,13 +100,11 @@ base      /opt/apps/software/lang/Anaconda3/2024.02-1
 ```
 source activate qiime2
 ```
-
-<br>Set working directory along the path to where the directory where the sequences are stored.
-<br>For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
+Set working directory along the path to where the directory where the sequences are stored.<br>
+For example, if your sequences are found in /home/project/sequences, set your working directory to /home/project
 ```
 cd /path/to/working/directory
 ```
-<br>
 
 ## STEP 2: Importing Sequences Into Qiime2
 Instructions on importing sequences into a qiime2 artifact can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).
