@@ -137,9 +137,10 @@ NOTE: Reverse reads are generally lower in quality and may require more trimming
 1. Observe how consistent the quality is by assessing the sequence length at which the quality begins to drop abrubptly, as well as how steep the drop in quality is.
 2. Determine at what sequence length the quality score begins to drop under 20.
 3. Take a screen shot of the quality plots for your records.
-4. If you want to record or look over reads per sample, scroll to the very bottom of the *"Overview"* tab and click "Download as TSV" to download per-sample-fastq-counts.tsv<br><br>
-<ins>If total read counts are different for Forward and Reverse sequences, check the following:</ins><br>
-1. All files were uploaded correctly (should not be 0 bytes).
+4. If you want to record or look over reads per sample, scroll to the very bottom of the *"Overview"* tab and click "Download as TSV" to download per-sample-fastq-counts.tsv
+
+<br><br><ins>If total read counts are different for Forward and Reverse sequences, check the following:</ins>
+<br>1. All files were uploaded correctly (should not be 0 bytes).
 <br>Go to directory where sequencing files are kept
 ```
 cd path/to/sequencing/files.fastq.gz
@@ -165,7 +166,7 @@ zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
 <br><br>
 ### Import Forward sequences using Casava 1.8 single-end demultiplexed fastq method
-<br><ins>Copy all foward sequences into new directory</ins>
+<br><ins>Copy all foward sequences into new directory before importing sequences!</ins>
 <br>All forward sequence files share a common suffix in their file names such as READ1.fastq.gz or R1_001.fastq.gz. Use this shared suffix, unique from the reverse reads (READ2.fastq.gz or R2_001.fastq.gz), to differentiate forward from reverse reads within the code.
 ```
 cp /path/to/directory/*R1_001.fastq.gz \
