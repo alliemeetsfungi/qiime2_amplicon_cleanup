@@ -216,7 +216,7 @@ To trim primers from all sequences, Qiime2 uses uses cutadapt (handbook found [H
   <br>Amplicon ~
   <br>Tul2F (Forward Primer): 5′-TGGATCCCTTGGCACGTC-3′
   <br>ITS4-Tul2 (Reverse Primer): 5′-TTCTTTTCCTCCGCTGAWTA-3′
-<br><br>
+<br>
 ### Trim Primers From Paired-end Sequences
 This method trims primers based on primer sequence rather than length, assuring that the correct region is trimmed off rather than only trimming off the initial ambiguous regions commonly seen in sequencing results (i.e., a region with NNNNNNN).
 ```
@@ -236,7 +236,7 @@ qiime demux summarize \
 <br>
 Go to the Qiime2 Viewer on the browser and upload the .qzv file, <ins>record total reads and any other pertinent information</ins>. Compare these outputs to your imported outputs from STEP 2. There shouldn't be any differences if everything worked correctly!
 <br><br>Scroll to the very bottom of the "Overview" page and click "Download as TSV" to download per-sample-fastq-counts.tsv post primer trimming if desired.
-<br><br>
+<br>
 ### Trim Primers From Forward Sequences
 This method is similar to trimming primers off of paired end sequences, with minor differences.
 ```
