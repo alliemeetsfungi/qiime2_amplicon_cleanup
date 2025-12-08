@@ -1,5 +1,5 @@
 # Qiime2 Amplicon Sequence Cleanup
-All of the code used here is compatible with the package <ins>Qiime2 amplicon version 2024.10.</ins><br>
+All of the code used here is compatible with the package <ins>Qiime2 amplicon version 2024.10.</ins>, documents and other tutorials for this version can be found [HERE](https://docs.qiime2.org/2024.10/).<br>
 The instructions and code for installing on a local drive are for macOS (Apple Silicon), and linux for installing on an HPC, but can be applied to other machines with modification.
 
 ## Purpose:
@@ -107,12 +107,12 @@ cd /path/to/working/directory
 <br>
 
 ## STEP 2: Importing Sequences Into Qiime2
-**WARNING:** Importing sequencing files into a Qiime2 artifact can take anywhere from **2-10 hours** depending on how much processing power your computer has (if running Qiime2 on your local drive) and how large your data set is.<br><br>
-The two approaches outlined below are for importing either (i) paired-end sequences (where you have a foward and reverse read for each sample) or (ii) single-end sequenes (generally only the foward read sequences for each sample) both of which use the Casava 1.8 method. This method requires sequences to be demultiplexed and in a specific format that is standard for sequences recieved from the Advanced Studies in Genomics, Proteomics, and Bioinformatics (ASGPB) center at University of Hawaiʻi at Mānoa. If your libraries were run outside of the University of Hawaiʻi at Mānoa, you may have to use an alternative importing approach. Further details on the formatting specifics required for importing sequences into a qiime2 artifact, as well as other methods available can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).<br><br>
-Regardless of the approach you choose to take to import all of your .fastq.gz sequencing files into a single Qiime2 artifact there are <ins>two lines of code that should be modified</ins>. The first is the <ins>"--input-path"</ins> which should show the path to the folder where your sequencing files are stored. The second is the <ins>"--output-path"</ins> line which should contain the path where your want your Qiime2 artifcat to be stored, and what you want it to be named.
+**WARNING:** Importing sequencing files into a Qiime artifact can take anywhere from **2-10 hours** depending on how much processing power your computer has (if running Qiime2 on your local drive) and how large your data set is.<br><br>
+The two approaches outlined below are for importing either (i) paired-end sequences (where you have a foward and reverse read for each sample) or (ii) single-end sequenes (generally only the foward read sequences for each sample) both of which use the Casava 1.8 method. This method requires sequences to be demultiplexed and in a specific format that is standard for sequences recieved from the Advanced Studies in Genomics, Proteomics, and Bioinformatics (ASGPB) center at University of Hawaiʻi at Mānoa. If your libraries were run outside of the University of Hawaiʻi at Mānoa, you may have to use an alternative importing approach. Further details on the formatting specifics required for importing sequences into a Qiime artifact, as well as other methods available can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).<br><br>
+Regardless of the approach you choose to take to import all of your .fastq.gz sequencing files into a single Qiime artifact there are <ins>two lines of code that should be modified</ins>. The first is the <ins>"--input-path"</ins> which should show the path to the folder where your sequencing files are stored. The second is the <ins>"--output-path"</ins> line which should contain the path where your want your Qiime2 artifcat to be stored, and what you want it to be named.
 <br>
 ### Import paired-end sequences using Casava 1.8 paired-end demultiplexed fastq method
-Modify the --input-path and --output-path lines to indicate where your sequences are stored, and where you want your Qiime2 artifact to be stored and named (described above) respectively.
+Modify the --input-path and --output-path lines to indicate where your sequences are stored, and where you want your Qiime artifact to be stored and named (described above) respectively.
 ```
 qiime tools import \
   --type 'SampleData[PairedEndSequencesWithQuality]' \
@@ -171,7 +171,7 @@ zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 cp /path/to/directory/*R1_001.fastq.gz \
 /path/to/new/directory
 ```
-Import forward sequences into a Qiime2 artifact (.qza)
+Import forward sequences into a Qiime artifact (.qza)
 ```
 qiime tools import \
   --type 'SampleData[SequencesWithQuality]' \
@@ -254,7 +254,7 @@ See paired-end section for next steps using the Qiime2 visualization file (.qzv)
 <br>
 ## STEP 4: DADA2 - Trimming, Merging, Denoising, and Feature Calling of Sequences
 To assure that the most features will be detected, multiple tests will be run at this step based on post primer trimming quality plots.
-<br><br>This process will produce three Qiime2 artifacts:
+<br><br>This process will produce three Qiime artifacts:
 1. <ins>Feature Table</ins> (feature-table.qza)
 2. <ins>Representative Sequences</ins> of detected features (feature-rep-seqs.qza)
 3. <ins>Denoising Statistics</ins> that shows the breakdown of the reads which passed each cleaning step (filtering, denoising, merging, and chimeras) for every sample (denoising-stats.qza)
@@ -272,7 +272,7 @@ qiime dada2 denoise-paired \
   --o-denoising-stats path/to/results/directory/denoising-stats.qza \
   --verbose
 ```
-Convert feature table Qiime2 artifact (feature-table.qza) into visualization file (feature-table.qzv).
+Convert feature table Qiime artifact (feature-table.qza) into visualization file (feature-table.qzv).
 ```
 qiime feature-table summarize \
   --i-table path/to/results/directory/feature-table.qza \
@@ -286,7 +286,7 @@ qiime feature-table tabulate-seqs \
   --o-visualization path/to/results/directory/feature-rep-seqs.qzv
 ```
 Now upload this .qzv file onto the Qiime2 Viewer and record sequence count (features), and sequence length statistics. Here, you can also download a .fasta file containing the sequence associated with each feature detected if desired, but this is also exported later on.
-<br><br>Convert denoising statistics Qiime2 artifact (denoising-stats.qza) into visualization file (denoising-stats.qzv)
+<br><br>Convert denoising statistics Qiime artifact (denoising-stats.qza) into visualization file (denoising-stats.qzv)
 ```
 qiime metadata tabulate \
   --m-input-file path/to/results/directory/denoising-stats.qza \
@@ -305,7 +305,7 @@ qiime dada2 denoise-paired \
   --o-denoising-stats path/to/results/directory/denoising-stats.qza \
   --verbose
 ```
-Convert the feature table, representative sequences, and denoising statistics Qiime2 artifact files into visualization files as described above.
+Convert the feature table, representative sequences, and denoising statistics Qiime artifact files into visualization files as described above.
 ```
 # Feature Table
 qiime feature-table summarize \
@@ -429,9 +429,9 @@ path/to/local/drive/directory
 The files should now be in your chosen directory and ready for import into R for culling.
 <br>
 ## STEP 7: Import Databases For Taxonomic Identification
-The following databases are the most commonly used for our studies. Some require files to be downloaded from the database webpage, while other databases can be pulled directly through Qiime2.
+The following databases are the most commonly used for our studies. Some require files to be downloaded from the database webpage, while other databases can be pulled directly through Qiime2. This step only needs to be performed once even if the taxonomic identification has to be re-done or if you're wanting to perform taxonomic assignment on multiple tests (for example on both your ASV and OTU results).
 <br><br>**SILVA**
-<br>This database is used for both 16S (prokaryotes) & 18S (eukaryotes) small ribosomal subunits. You can pull the database files needed for Qiime2 straight from the SILVA database using the code below. See [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details. The code provided in this SOP is based on SILVA version 138.2. <ins>NOTE: Reference sequences extracted from SILVA are in rRNA format and need to be "transcribed" before using for taxonomic identification.</ins
+<br>This database is used for both 16S (prokaryotes) & 18S (eukaryotes) small ribosomal subunits. You can pull the database files needed for Qiime2 straight from the SILVA database using the code below. See [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details. The code provided in this SOP is based on SILVA version 138.2. <ins>NOTE: Reference sequences extracted from SILVA are in rRNA format and need to be "transcribed" before using for taxonomic identification.</ins>
 <br><br>Pull data from silva repository
 ```
 qiime rescript get-silva-data \
@@ -446,8 +446,10 @@ qiime rescript reverse-transcribe \
   --i-rna-sequences path/to/file/silva-138.2-rna-ref-seqs.qza \
   --o-dna-sequences desired/path/to/file/silva-138.2-ref-seqs.qza
 ```
+<br>
+
 ### Fungi (and other micro-eukaryotes) Databases
-<br>**Eukaryome**
+**Eukaryome**
 <br>Files can be downloaded [HERE](https://eukaryome.org/qiime2/) for Qiime2 compatability. This code provided in this SOP is based on QIIME2_EUK_SSU Version 2.0, however databases for LSU, ITS, and other microbial amplicons are available.
 <br><br>Once database files are downloaded transfer them into your working directory, then import the reference sequences and taxonomy files into Qiime2 using the following code:
 ```
@@ -501,9 +503,9 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 ```
 <br>
 
-**UNITE**
+**UNITE**<br>
 UNDER CONSTRUCTION
-
+<br>
 ### Bacteria (and other prokaryotes) Databases
 **Genome Taxonomy Database (GTDB)**
 <brThe database website can be found [HERE](https://gtdb.ecogenomic.org/). Sequences can be pulled using Qiime2 with the code below based on GTDP Version 220.0.
@@ -515,14 +517,15 @@ qiime rescript get-gtdb-data \
 ```
 <br>
 
-**GREENGENES2**
+**GREENGENES2**<br>
 UNDER CONSTRUCTION
+<br>
 
 ## STEP 8: Taxonomic Assignment To Features
-Using the qiime artifact created by DADA2 (feature-rep-seqs.qza) containing the sequences associated with each identified feature (representative sequences) as the input file for BLAST searching each features taxonomic association.
-<br><br>For each database, run unnassigned sequences with 95%, 90%, and 80% identity rates to allow for higher rates of taxonomic assignment by loosening the sequence consensus calling requiremnts. If multiple databases are available, start with BLAST searching the sequences through the databse believed to provide the most assignments at all three query coverage targets first, then running the remainder of the unassigned sequences through the next best databse.
-<br><br><ins>Database ONE</ins>
-<br>*95% Identity*
+Using the Qiime artifact created by DADA2 (feature-rep-seqs.qza) containing the sequences associated with each identified feature (representative sequences) as the input file, these sequences can be used for BLAST searching each features taxonomic association.
+<br><br>For each database, run unnassigned sequences with 95%, 90%, and 80% identities. This allows for higher rates of taxonomic assignment by loosening the sequence consensus calling requirements for each database. If you want to use multiple databases to assign as many taxa as possible, start with BLAST searching the sequences through the database believed to provide the most assignments at all three query coverage targets first, then run the remainder of the unassigned sequences through the next best database. The code below shows an example of how to do this with two databases, however this can performed with additional databases (i.e., 3 or more) if needed!
+<br><br>**Database ONE**
+<br><ins>95% Identity</ins>
 <br>First blast search will be run with all parameters at the default (NEED TO CHECK THIS), except setting the percent identity (--p-perc-identity) to 95% (0.95)
 ```
 qiime feature-classifier classify-consensus-blast \
@@ -759,7 +762,7 @@ qiime feature-table merge \
   --o-merged-table path/to/final/results/directory/all-assigned-features-table.qza \
   --p-overlap-method sum
 ```
-Convert both the final assigned and unassigned feature tbale Qiime2 artifacts into a visualization files.
+Convert both the final assigned and unassigned feature tbale Qiime artifacts into a visualization files.
 ```
 # Final assigned feature table
 qiime feature-table summarize \
@@ -788,7 +791,7 @@ qiime feature-table summarize \
 Upload the visualization file and confirm that the sample, feature, and read counts match that of the feature-table.qza produced from DADA2.
 
 ## STEP 10: Merging Classification Files
-To retrieve your final taxa table, you will need to merge all of your classification files which can be a bit tricky. Before doing this, I like to determine how many features were annotated within each classfication file to make sure that merging is occurring correctly. To do this, all of the clalssification.qza Qiime2 artifacts will need to be converted into a visualization file.
+To retrieve your final taxa table, you will need to merge all of your classification files which can be a bit tricky. Before doing this, I like to determine how many features were annotated within each classfication file to make sure that merging is occurring correctly. To do this, all of the clalssification.qza Qiime artifacts will need to be converted into a visualization file.
 ```
 qiime metadata tabulate \
   --m-input-file path/to/search/results/database/directory-95/classification.qza \
@@ -824,7 +827,7 @@ qiime feature-table merge-taxa \
   --i-data path/to/search/results/database/directory-95/classification.qza \
   --o-merged-data path/to/search/results/database/classification_merged1.qza
 ```
-Then check to make sure they merged by converting the output Qiime2 artifact into a visualization file, uploading it onto the Qiime2 viewer, and observing if the number of features that are present is equal to the sum of both of the classification files you merged.
+Then check to make sure they merged by converting the output Qiime artifact into a visualization file, uploading it onto the Qiime2 viewer, and observing if the number of features that are present is equal to the sum of both of the classification files you merged.
 ```
 qiime metadata tabulate \
   --m-input-file path/to/search/results/database/classification_merged1.qza \
@@ -877,7 +880,7 @@ NOTE: The directory for the final merged table is set to be where you want all o
 Now we have all of our final tables ready to export for furthing cleaning by asv & sample culling and decontam runs.
 <br>
 *Export Feature (ASV) Table (feature-table.qza)*<br>
-Convert the Qiime2 artifact into a .biom file
+Convert the Qiime artifact into a .biom file
 ```
 qiime tools export \
   --input-path path/to/results/directory/feature-table.qza \
@@ -896,14 +899,14 @@ sed 's/\t/,/g' path/to/results/directory/feature-table/final-feature-table.tsv >
 ```
 
 *Export Representative Sequences (feature-rep-seqs.qza)*
-<br>The code below converts the Qiime2 artifact containing the representative sequnces into a fasta file automatically names dna-sequences.fasta file inside of the directory named "rep-seqs"
+<br>The code below converts the Qiime artifact containing the representative sequnces into a fasta file automatically names dna-sequences.fasta file inside of the directory named "rep-seqs"
 ```
 qiime tools export \
   --input-path path/to/results/directory/feature-rep-seqs.qza \
   --output-path path/to/results/directory/rep-seqs
 ```
 *Export Taxonomy Table (feature-rep-seqs.qza)*
-<br>The code below converts the Qiime2 artifact containing the final taxa table (made in step 10: classification_merged_final.qza) into a .tsv file automatically named taxonomy.tsv inside of the directory named "taxonomy". Similarly as was seen for the feature table, if you prefer a .csv file you can convert the .tsv into a .csv file.
+<br>The code below converts the Qiime artifact containing the final taxa table (made in step 10: classification_merged_final.qza) into a .tsv file automatically named taxonomy.tsv inside of the directory named "taxonomy". Similarly as was seen for the feature table, if you prefer a .csv file you can convert the .tsv into a .csv file.
 ```
 qiime tools export \
   --input-path path/to/final/results/directory/classification_merged_final.qza \
