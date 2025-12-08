@@ -888,36 +888,35 @@ qiime metadata tabulate \
 NOTE: The directory for the final merged table is set to be where you want all of your final results to be for easy organization.<br>
 
 ## STEP 11: Export Final Tables And Representative Sequences
-Now we have all of our final tables ready to export for furthing cleaning by asv & sample culling and decontam runs.
-<br>
-*Export Feature (ASV) Table (feature-table.qza)*<br>
-Convert the Qiime artifact into a .biom file
+Now we have all of our final tables ready to export for normalization via asv & sample culling and decontam runs.<br><br>
+**Export Feature (ASV) Table (feature-table.qza)**
+<br>Convert the Qiime artifact containing the file feature table (from STEP 4 or 5) into a .biom file:
 ```
 qiime tools export \
   --input-path path/to/results/directory/feature-table.qza \
   --output-path path/to/results/directory/feature-table
 ```
-This creates a directory named "feature-table" that contains a feature-table.biom file. We will now convert this into a .tsv file
+This creates a directory named "feature-table" that containing the feature table file (feature-table.biom).<br><br>
+Convert the .biom file into a .tsv file for compatability with the downstream software you plan to use:
 ```
 biom convert \
   --input-fp path/to/results/directory/feature-table/feature-table.biom \
   --output-fp path/to/results/directory/feature-table/final-feature-table.tsv \
   --to-tsv
 ```
-If you prefer to use a .csv file (which programs such as R Studio can play nicer with), convert the .tsv file into a .csv file
+If you prefer a .csv file (which programs such as R Studio can play nicer with), convert the .tsv file into a .csv file:
 ```
 sed 's/\t/,/g' path/to/results/directory/feature-table/final-feature-table.tsv > path/to/results/directory/feature-table/final-feature-table.csv
 ```
-
-*Export Representative Sequences (feature-rep-seqs.qza)*
-<br>The code below converts the Qiime artifact containing the representative sequnces into a fasta file automatically names dna-sequences.fasta file inside of the directory named "rep-seqs"
+<br>**Export Representative Sequences (feature-rep-seqs.qza)**
+<br>The code below converts the Qiime artifact containing the representative sequnces (from STEP 4 or 5) into a .fasta file automatically named "dna-sequences.fasta" inside of a directory named "rep-seqs":
 ```
 qiime tools export \
   --input-path path/to/results/directory/feature-rep-seqs.qza \
   --output-path path/to/results/directory/rep-seqs
 ```
-*Export Taxonomy Table (feature-rep-seqs.qza)*
-<br>The code below converts the Qiime artifact containing the final taxa table (made in step 10: classification_merged_final.qza) into a .tsv file automatically named taxonomy.tsv inside of the directory named "taxonomy". Similarly as was seen for the feature table, if you prefer a .csv file you can convert the .tsv into a .csv file.
+<br>**Export Taxonomy Table (classification_merged_final.qza)**
+<br>The code below converts the Qiime artifact containing the final taxa table (from Step 10) into a .tsv file automatically named "taxonomy.tsv" inside of the directory "taxonomy". Similarly as was seen for the feature table, if you prefer a .csv file you can convert the .tsv into a .csv file.
 ```
 qiime tools export \
   --input-path path/to/final/results/directory/classification_merged_final.qza \
@@ -925,8 +924,8 @@ qiime tools export \
 
 sed 's/\t/,/g' path/to/results/directory/taxonomy/taxonomy.tsv > path/to/results/directory/taxonomy/taxonomy.csv
 ```
-<br><ins>Accessing final files</ins><br>
-If you ran the pipeline on the HPC, you can log into your HPC accound and download the files. Alternatively, you can download them using the code belwo on the command line.
+<br>**Accessing final files**<br>
+If you ran the pipeline on the HPC, you can log into your HPC account and download the files from within the directories created. Alternatively, you can download them using the code below on the command line.
 ```
 # Download an entire directory
 scp -r user@koa.its.hawaii.edu:/home/user/path/to/results/directory/ \ ~/path/to/directory/on/local/drive/
