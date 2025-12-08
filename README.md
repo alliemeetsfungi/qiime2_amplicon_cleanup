@@ -2,7 +2,7 @@
 All of the code used here is compatible with the package <ins>Qiime2 amplicon version 2024.10.</ins><br>
 The instructions and code for installing on a local drive are for macOS (Apple Silicon), and linux for installing on an HPC, but can be applied to other machines with modification.
 
-## Purpose: 
+## Purpose:
 This SOP is designed to assist those with using the Qiime2 package for (i) performing an initial quality control (cleaning) using DADA2 of all sequences by removing low quality sequences (quality filtering) and chimeric sequences, correcting sequencing errors that are present (denoising), grouping duplicate sequences, and merging paired end sequences (if maintaining both the forward and reverse sequences for all samples), and (ii) assigning taxonomy to reamining sequences using various databases. This procedure focuses specifically on fungal 18S and bacterial 16S bacterial sequences, but can be modified for other amplicons as needed.
 
 ### Inisghts Into Bioinformatics Terminology:
@@ -430,9 +430,8 @@ The files should now be in your chosen directory and ready for import into R for
 <br>
 ## STEP 7: Import Databases For Taxonomic Identification
 The following databases are the most commonly used for our studies. Some require files to be downloaded from the database webpage, while other databases can be pulled directly through Qiime2.
-<br><br><ins>SILVA</ins>
-<br>This database is used for both small ribosomal subunits 16S & 18S
-<br><br>Pull database files straight from silva database, see [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details. The code here is based on version 138.2, and reference sequences extracted are in rRNA format and need to be transcribed before using for taxonomic identification.
+<br><br>**SILVA**
+<br>This database is used for both 16S (prokaryotes) & 18S (eukaryotes) small ribosomal subunits. You can pull the database files needed for Qiime2 straight from the SILVA database using the code below. See [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details. The code provided in this SOP is based on SILVA version 138.2. <ins>NOTE: Reference sequences extracted from SILVA are in rRNA format and need to be "transcribed" before using for taxonomic identification.</ins
 <br><br>Pull data from silva repository
 ```
 qiime rescript get-silva-data \
@@ -447,26 +446,26 @@ qiime rescript reverse-transcribe \
   --i-rna-sequences path/to/file/silva-138.2-rna-ref-seqs.qza \
   --o-dna-sequences desired/path/to/file/silva-138.2-ref-seqs.qza
 ```
-### Fungal Databases
-<br><ins>Eukaryome</ins>
-<br>Files can be downloaded [HERE](https://eukaryome.org/qiime2/) for Qiime2 compatability. This code is based on QIIME2_EUK_SSU Version 2.0, however databases for LSU, ITS, and other packages are available.
-<br><br>Transfer downloaded files into working directory
-<br><br>Import reference sequences
+### Fungi (and other micro-eukaryotes) Databases
+<br>**Eukaryome**
+<br>Files can be downloaded [HERE](https://eukaryome.org/qiime2/) for Qiime2 compatability. This code provided in this SOP is based on QIIME2_EUK_SSU Version 2.0, however databases for LSU, ITS, and other microbial amplicons are available.
+<br><br>Once database files are downloaded transfer them into your working directory, then import the reference sequences and taxonomy files into Qiime2 using the following code:
 ```
+# Import Reference Sequences
 qiime tools import --type 'FeatureData[Sequence]' \
   --input-path path/to/file/QIIME2_EUK_SSU_v2.0.fasta \
   --output-path desired/path/to/file/eukaryome-ref-seqs.qza
-```
-Import taxonomy
-```
+
+# Import Taxonomy
 qiime tools import --type 'FeatureData[Taxonomy]' \
   --input-format HeaderlessTSVTaxonomyFormat \
   --input-path path/to/file/QIIME2_EUK_SSU_v2.0.tsv \
   --output-path desired/path/to/file/eukaryome-ref-tax.qza
 ```
-<br><br>
-<ins>National Center for Biotechnology Information (NCBI)</ins>
-<br>Files can be pulled straight from NCBI using Qiime2 and are reliant on how often the database is updated remotely
+<br>
+
+**National Center for Biotechnology Information (NCBI)**
+<br>The reference sequences and taxonomic files from the most up to date version of the NCBI database can be pulled straight from the NCBI server and imported into Qiime2:
 ```
 qiime rescript get-ncbi-data \
   --p-query '18S[ALL] AND fungi[ORGN]' \
@@ -474,7 +473,7 @@ qiime rescript get-ncbi-data \
   --o-taxonomy desired/path/to/file/ncbi-fungi-ref-tax.qza \
   --p-n-jobs 5
 ```
-You can alter the query to filter for specific taxa, such as Glomeromycotina
+You can alter the query to filter for specific taxa, such as Glomeromycotina, if desired:
 ```
 qiime rescript get-ncbi-data \
 --p-query '18S[ALL] AND glomeromycotina [ORGN]' \
@@ -483,28 +482,31 @@ qiime rescript get-ncbi-data \
 --p-n-jobs 5
 
 ```
-<br><br><ins>MaarjAM</ins>
+<br>
+
+**MaarjAM**
 <br>Qiime2 compatable files can be downloaded [HERE](https://maarjam.ut.ee/?action=bDownload). This code is based on MaarjAM VT sequences of 18S rDNA gene region QIIME release (2021) for identifying Arbuscular Mycorrhizal Fungi (AMF).
-<br><br>Transfer downloaded files into working directory
-<br>Import reference sequences
+<br><br>Once database files are downloaded transfer them into your working directory, then import the reference sequences and taxonomy files into Qiime2 using the following code:
 ```
+# Import Reference Sequences
 qiime tools import --type 'FeatureData[Sequence]' \
 --input-path path/to/file/maarjam_database_SSU.qiime.fasta \
 --output-path desired/path/to/file/maarjam-ref-seqs.qza
-```
-Import taxonomy
-```
+
+# Import Taxonomy
 qiime tools import --type 'FeatureData[Taxonomy]' \
 --input-format HeaderlessTSVTaxonomyFormat \
 --input-path path/to/file/maarjam_database_SSU.qiime.txt \
 --output-path desired/path/to/file/maarjam-ref-tax.qza
 ```
+<br>
 
-<br><br><ins>UNITE</ins>
+**UNITE**
+UNDER CONSTRUCTION
 
-### Bacterial Databases
-<ins>Genome Taxonomy Database (GTDB)</ins>
-<br>Database website can be found [HERE](https://gtdb.ecogenomic.org/). Sequences can be pulled using Qiime2 with the code below based on GTDP Version 220.0
+### Bacteria (and other prokaryotes) Databases
+**Genome Taxonomy Database (GTDB)**
+<brThe database website can be found [HERE](https://gtdb.ecogenomic.org/). Sequences can be pulled using Qiime2 with the code below based on GTDP Version 220.0.
 ```
 qiime rescript get-gtdb-data \
   --p-version 220.0 \
@@ -512,6 +514,9 @@ qiime rescript get-gtdb-data \
   --output-dir desired/directory/path/for/files
 ```
 <br>
+
+**GREENGENES2**
+UNDER CONSTRUCTION
 
 ## STEP 8: Taxonomic Assignment To Features
 Using the qiime artifact created by DADA2 (feature-rep-seqs.qza) containing the sequences associated with each identified feature (representative sequences) as the input file for BLAST searching each features taxonomic association.
