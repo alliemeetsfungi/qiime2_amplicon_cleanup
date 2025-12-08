@@ -108,7 +108,6 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 --input-path Database_files/QIIME2_EUK_SSU_v1.9.4/QIIME2_EUK_SSU_v1.9.4.tsv \
 --output-path Database_files/eukaryome-ref-tax.qza
 ```
-<br>
 <ins>NCBI filtered for Glomeromycotina</ins><br>
 NCBI information is directly pulled into Qiime2 without downloading files from the webpage:
 ```
@@ -118,7 +117,6 @@ qiime rescript get-ncbi-data \
 --o-taxonomy Database_files/ncbi-glom-taxonomy-unfiltered.qza \
 --p-n-jobs 5
 ```
-<br>
 <ins>SILVA</ins><br>
 From the SILVA webpage Version 132 was downloaded:
 ```
@@ -131,16 +129,12 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 --input-path Database_files/SILVA_132_QIIME_release/taxonomy/taxonomy_all/99/taxonomy_all_levels.txt \
 --output-path Database_files/silva-ref-tax.qza
 ```
-
+<br>
 
 ## STEP 8: Taxonomic Assignment To Features
-
-## 4.1 Maarjam 2021 ##
-######################
-
-## 4.1.1 95% ID ##
-##################
-
+**Maarjam 2021**<br>
+95% ID
+```
 # 95% identity = --p-perc-identity 0.95
 # 90% query coverage = --p-query-cov 0.90 (ALWAYS)
 qiime feature-classifier classify-consensus-blast \
@@ -155,16 +149,15 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/maarjam-95
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/clean/nanu-rep-seqs.qza \
 --i-taxonomy FINAL/taxa/maarjam-95/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/maarjam-95/unassigned-rep-seqs-95.qza
-
-## 4.1.2 90% ID ##
-##################
-
+```
+90% ID
+```
 # 90% identity = --p-perc-identity 0.90
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/maarjam-95/unassigned-rep-seqs-95.qza \
@@ -178,16 +171,15 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/maarjam-90
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/maarjam-95/unassigned-rep-seqs-95.qza \
 --i-taxonomy FINAL/taxa/maarjam-90/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/maarjam-90/unassigned-rep-seqs-90.qza
-
-## 4.1.3 80% ID ##
-##################
-
+```
+80% ID
+```
 # 80% identity = --p-perc-identity 0.80
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/maarjam-90/unassigned-rep-seqs-90.qza \
@@ -201,22 +193,17 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/maarjam-80
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/maarjam-90/unassigned-rep-seqs-90.qza \
 --i-taxonomy FINAL/taxa/maarjam-80/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/maarjam-80/unassigned-rep-seqs-80.qza
-
-#run remaining unassignd sequences through the next databse!
-
-
-## 4.2 Eukaryome ##
-###################
-
-## 4.2.1 95% ID ##
-##################
-
+```
+Run remaining unassignd sequences through the next databse!<br><br>
+**Eukaryome**
+```
+# 95% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/maarjam-80/unassigned-rep-seqs-80.qza \
 --i-reference-reads FINAL/Database_files/eukaryome-ref-seqs.qza \
@@ -229,7 +216,7 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/euk-95
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/maarjam-80/unassigned-rep-seqs-80.qza \
 --i-taxonomy FINAL/taxa/euk-95/classification.qza \
@@ -237,9 +224,7 @@ qiime taxa filter-seqs \
 --o-filtered-sequences FINAL/taxa/euk-95/unassigned-rep-seqs-95.qza
 
 
-## 4.2.2 90% ID ##
-##################
-
+# 90% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/euk-95/unassigned-rep-seqs-95.qza \
 --i-reference-reads FINAL/Database_files/eukaryome-ref-seqs.qza \
@@ -252,16 +237,15 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/euk-90
 
-# filter out unassigned sequences into their own file.
+# Filter out unassigned sequences into their own file.
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/euk-95/unassigned-rep-seqs-95.qza \
 --i-taxonomy FINAL/taxa/euk-90/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/euk-90/unassigned-rep-seqs-90.qza
 
-## 4.2.3 80% ID ##
-##################
 
+# 80% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/euk-90/unassigned-rep-seqs-90.qza \
 --i-reference-reads FINAL/Database_files/eukaryome-ref-seqs.qza \
@@ -274,22 +258,17 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/euk-80
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/euk-90/unassigned-rep-seqs-90.qza \
 --i-taxonomy FINAL/taxa/euk-80/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/euk-80/unassigned-rep-seqs-80.qza
-
-#run remaining unassignd sequences through the next databse!
-
-
-## 4.3 NCBI ##
-##############
-
-## 4.3.1 95% ID ##
-##################
-
+```
+<br><br>
+**NCBI**
+```
+# 95% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/euk-80/unassigned-rep-seqs-80.qza \
 --i-reference-reads FINAL/Database_files/ncbi-glom-refseqs-unfiltered.qza \
@@ -302,7 +281,7 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/ncbi-95
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/euk-80/unassigned-rep-seqs-80.qza \
 --i-taxonomy FINAL/taxa/ncbi-95/classification.qza \
@@ -310,11 +289,7 @@ qiime taxa filter-seqs \
 --o-filtered-sequences FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza
 
 
-## 4.3.2 90% ID ##
-##################
-
-### NO HITS MOVED TO NCBI 80% IDENTITY ###
-
+# 90% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-reference-reads FINAL/Database_files/ncbi-glom-refseqs-unfiltered.qza \
@@ -327,18 +302,16 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/ncbi-90
 
-# filter out unassigned sequences into their own file.
+# Filter out unassigned sequences into their own file.
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-taxonomy FINAL/taxa/ncbi-90/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/ncbi-90/unassigned-rep-seqs-90.qza
-
-## 4.3.3 80% ID ##
-##################
-
-### NO HITS MOVED TO SILVA 95% IDENTITY ###
-
+```
+Query for NCBI at 90% ID showed no hits!
+```
+# 80% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-reference-reads FINAL/Database_files/ncbi-glom-refseqs-unfiltered.qza \
@@ -351,22 +324,17 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/ncbi-80
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-taxonomy FINAL/taxa/ncbi-80/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/ncbi-80/unassigned-rep-seqs-80.qza
-
-
-## 4.4 SILVA 132 ##
-###################
-
-## 4.4.1 95% ID ##
-##################
-
-### NO HITS MOVED TO SILVA 90% IDENTITY ###
-
+```
+Query for NCBI at 80% ID showed no hits!<br><br>
+**SILVA 132**
+```
+# 95% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-reference-reads FINAL/Database_files/silva-ref-seqs.qza \
@@ -379,16 +347,16 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/silva-95
 
-# filter out unassigned sequences into their own file.
+# Filter out unassigned sequences into their own file.
 qiime taxa filter-seqs \
 --i-sequences nanu-rep-seqs.qza \
 --i-taxonomy taxa/silva-95/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences taxa/silva-95/unassigned-rep-seqs-95.qza
-
-## 4.4.2 90% ID ##
-##################
-
+```
+Query for SILVA at 95% ID showed no hits!
+```
+# 90% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-reference-reads FINAL/Database_files/silva-ref-seqs.qza \
@@ -401,18 +369,15 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/silva-90
 
-# filter out unassigned sequences into their own file.
+# Filter out unassigned sequences into their own file.
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/ncbi-95/unassigned-rep-seqs-95.qza \
 --i-taxonomy FINAL/taxa/silva-90/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/silva-90/unassigned-rep-seqs-90.qza
 
-## 4.2.3 80% ID ##
-##################
 
-### NO HITS ###
-
+# 80% ID
 qiime feature-classifier classify-consensus-blast \
 --i-query FINAL/taxa/silva-90/unassigned-rep-seqs-90.qza \
 --i-reference-reads FINAL/Database_files/silva-ref-seqs.qza \
@@ -425,28 +390,18 @@ qiime feature-classifier classify-consensus-blast \
 --p-min-consensus 0.51 \
 --output-dir FINAL/taxa/silva-80
 
-# filter out unassigned sequences into their own file
+# Filter out unassigned sequences into their own file
 qiime taxa filter-seqs \
 --i-sequences FINAL/taxa/silva-90/unassigned-rep-seqs-90.qza \
 --i-taxonomy FINAL/taxa/silva-80/classification.qza \
 --p-include unassigned \
 --o-filtered-sequences FINAL/taxa/silva-80/unassigned-rep-seqs-80.qza
-
-
-
-####################################
-	
-### 5. FINALIZE TAXONOMY TABLES ###
-
-####################################
-
-## 5.1 Filter for Fungi ##
-##########################
-
-## 5.1.1 Maarjam 95% ID ##
-##########################
-
-# Filter for fungi only from maarjam 95% ID
+```
+Query for SILVA at 80% ID showed no hits!<br>
+## STEP 9: Filtering Feature Tables (OPTIONAL)
+### Filter for Fungi
+<ins>Maarjam 95% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/clean/nanu-table.qza \
 --i-taxonomy FINAL/taxa/maarjam-95/classification.qza \
@@ -454,18 +409,15 @@ qiime taxa filter-table \
 --o-filtered-table FINAL/taxa/maarjam-95/fungi-table.qza
 
 # Filter for unnassigned features to be used for subsequent fungi filtering
-#use output file for next table filtering step
 qiime taxa filter-table \
 --i-table FINAL/clean/nanu-table.qza \
 --i-taxonomy FINAL/taxa/maarjam-95/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/maarjam-95/unassigned-table-95.qza
-
-
-## 5.1.2 Maarjam 90% ID ##
-##########################
-
-# Filter out fungi
+```
+Use output file for next table filtering step.<br><br>
+<ins>Maarjam 90% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/maarjam-95/unassigned-table-95.qza \
 --i-taxonomy FINAL/taxa/maarjam-90/classification.qza \
@@ -478,12 +430,11 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/maarjam-90/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/maarjam-90/unassigned-table-90.qza
+```
+<br>
 
-
-## 5.1.3 Maarjam 80% ID ##
-##########################
-
-# Filter out fungi
+<ins>Maarjam 80% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/maarjam-90/unassigned-table-90.qza \
 --i-taxonomy FINAL/taxa/maarjam-80/classification.qza \
@@ -496,12 +447,11 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/maarjam-80/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/maarjam-80/unassigned-table-80.qza
+```
+<br>
 
-
-## 5.1.4 Eukaryome 95% ID ##
-############################
-
-# Filter out fungi
+<ins>Eukaryome 95% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/maarjam-80/unassigned-table-80.qza \
 --i-taxonomy FINAL/taxa/euk-95/classification.qza \
@@ -514,12 +464,9 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/euk-95/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/euk-95/unassigned-table-95.qza
-
-
-## 5.1.5 Eukaryome 90% ID ##
-############################
-
-# Filter out fungi
+```
+<ins>Eukaryome 90% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/euk-95/unassigned-table-95.qza \
 --i-taxonomy FINAL/taxa/euk-90/classification.qza \
@@ -532,12 +479,9 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/euk-90/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/euk-90/unassigned-table-90.qza
-
-
-## 5.1.6 Eukaryome 80% ID ##
-############################
-
-# Filter out fungi
+```
+<ins>Eukaryome 80% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/euk-90/unassigned-table-90.qza \
 --i-taxonomy FINAL/taxa/euk-80/classification.qza \
@@ -550,12 +494,9 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/euk-80/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/euk-80/unassigned-table-80.qza
-
-
-## 5.1.7 NCBI 95% ID ##
-#######################
-
-# Filter out fungi
+```
+<ins>NCBI 95% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/euk-80/unassigned-table-80.qza \
 --i-taxonomy FINAL/taxa/ncbi-95/classification.qza \
@@ -568,12 +509,9 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/ncbi-95/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/ncbi-95/unassigned-table-95.qza
-
-
-## 5.1.8 SILVA 90% ID ##
-########################
-
-# Filter out fungi
+```
+<ins>SILVA 90% ID </ins>
+```
 qiime taxa filter-table \
 --i-table FINAL/taxa/ncbi-95/unassigned-table-95.qza \
 --i-taxonomy FINAL/taxa/silva-90/classification.qza \
@@ -588,16 +526,12 @@ qiime taxa filter-table \
 --i-taxonomy FINAL/taxa/silva-90/classification.qza \
 --p-include unassigned \
 --o-filtered-table FINAL/taxa/silva-90/unassigned-table-90.qza
+```
+All filtering complete, can now merge.<br>
 
-
-
-## 5.2 Merge Tables ##
-############################
-
-## 5.2.1 Fungi Only Tables ##
-#############################
-
-# merge the fungi only taxonomy classification files.
+### Merge tables
+Merge and convert fungi only tables.
+```
 qiime feature-table merge \
 --i-tables FINAL/taxa/maarjam-95/fungi-table.qza \
 --i-tables FINAL/taxa/maarjam-90/fungi-table.qza \
@@ -609,76 +543,81 @@ qiime feature-table merge \
 --o-merged-table FINAL/nanu-fungi-table.qza \
 --p-overlap-method sum
 
+# Convert to .tsv file
 qiime feature-table summarize \
 --i-table FINAL/nanu-fungi-table.qza \
 --o-visualization FINAL/nanu-fungi-table.qzv \
 --m-sample-metadata-file FINAL/nanu-metadata.tsv
 
+# Convert to vis file
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/nanu-fungi-table.qza \
 --o-visualization FINAL/taxa/nanu-fungi-table_2.qzv
-
-## 5.2.2 Unassigned & Fungi Tables ##
-#####################################
-
+```
+Merge Unassigned & Fungi Tables
+```
+# Merge tables
 qiime feature-table merge \
 --i-tables FINAL/nanu-fungi-table.qza \
 --i-tables FINAL/taxa/silva-90/unassigned-table-90.qza \
 --o-merged-table FINAL/nanu-all-table.qza \
 --p-overlap-method sum
 
+# Convert to .tsv
 qiime feature-table summarize \
 --i-table FINAL/nanu-all-table.qza \
 --o-visualization FINAL/nanu-all-table.qzv \
 --m-sample-metadata-file FINAL/nanu-metadata.tsv
+```
+<br>
 
+## STEP 10: Merging Classification Files
+merge-taxa only merges files IF the lower % ID file is listed first!
+```
+# Count features from individual classification files
+qiime metadata tabulate \
+--m-input-file FINAL/taxa/maarjam-95/classification-m95.qza \
+--o-visualization FINAL/taxa/maarjam-95/classification-m95.qzv
+# 867 features
 
-## 5.2.3 Taxonomy Classification files ##
-#########################################
+qiime metadata tabulate \
+--m-input-file FINAL/taxa/maarjam-90/classification-m90.qza \
+--o-visualization FINAL/taxa/maarjam-90/classification-m90.qzv
+# 142 features
 
-## merge taxa table only merges files IF the lower % ID file is listed first! ##
+# Merge classification files
 qiime feature-table merge-taxa \
 --i-data FINAL/taxa/maarjam-90/classification-m90.qza \
 --i-data FINAL/taxa/maarjam-95/classification-m95.qza \
 --o-merged-data FINAL/taxa/m95-m90-classification.qza
 
-qiime metadata tabulate \
---m-input-file FINAL/taxa/maarjam-95/classification-m95.qza \
---o-visualization FINAL/taxa/maarjam-95/classification-m95.qzv
-# 867
-
-qiime metadata tabulate \
---m-input-file FINAL/taxa/maarjam-90/classification-m90.qza \
---o-visualization FINAL/taxa/maarjam-90/classification-m90.qzv
-# 142
-
+# Count features from merged classification file
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/m95-m90-classification.qza \
 --o-visualization FINAL/taxa/m95-m90-classification.qzv
-# 1,009
-
-
-qiime feature-table merge-taxa \
---i-data FINAL/taxa/maarjam-80/classification.qza \
---i-data FINAL/taxa/m95-m90-classification.qza \
---o-merged-data FINAL/taxa/maarjam-merged-classification.qza
-
+# 1,009 features
+```
+```
+# Count features from individual classification files
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/maarjam-80/classification.qza \
 --o-visualization FINAL/taxa/maarjam-80/classification-m80.qzv
 # 294
 
+# Merge
+qiime feature-table merge-taxa \
+--i-data FINAL/taxa/maarjam-80/classification.qza \
+--i-data FINAL/taxa/m95-m90-classification.qza \
+--o-merged-data FINAL/taxa/maarjam-merged-classification.qza
+
+# Count features from merged
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/maarjam-merged-classification.qza \
 --o-visualization FINAL/taxa/maarjam-merged-classification.qzv
 # 1,303
-
-
-qiime feature-table merge-taxa \
---i-data FINAL/taxa/euk-90/classification.qza \
---i-data FINAL/taxa/euk-95/classification.qza \
---o-merged-data FINAL/taxa/e95-e90-classification.qza
-
+```
+```
+# Count features from individual classification files
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/euk-95/classification.qza \
 --o-visualization FINAL/taxa/euk-95/classification-e95.qzv
@@ -689,33 +628,39 @@ qiime metadata tabulate \
 --o-visualization FINAL/taxa/euk-90/classification-e90.qzv
 # 63
 
+# Merge
+qiime feature-table merge-taxa \
+--i-data FINAL/taxa/euk-90/classification.qza \
+--i-data FINAL/taxa/euk-95/classification.qza \
+--o-merged-data FINAL/taxa/e95-e90-classification.qza
+
+# Count features from merged
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/e95-e90-classification.qza \
 --o-visualization FINAL/taxa/e95-e90-classification.qzv
 # 213
-
-
-qiime feature-table merge-taxa \
---i-data FINAL/taxa/euk-80/classification.qza \
---i-data FINAL/taxa/e95-e90-classification.qza \
---o-merged-data FINAL/taxa/euk-merged-classification.qza
-
+```
+```
+# Count features from individual classification files
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/euk-80/classification.qza \
 --o-visualization FINAL/taxa/euk-80/classification-e80.qzv
 # 23
 
+# Merge
+qiime feature-table merge-taxa \
+--i-data FINAL/taxa/euk-80/classification.qza \
+--i-data FINAL/taxa/e95-e90-classification.qza \
+--o-merged-data FINAL/taxa/euk-merged-classification.qza
+
+# Count features from merged
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/euk-merged-classification.qza \
 --o-visualization FINAL/taxa/euk-merged-classification.qzv
 # 
-
-
-qiime feature-table merge-taxa \
---i-data FINAL/taxa/ncbi-95/classification.qza \
---i-data FINAL/taxa/silva-90/classification.qza \
---o-merged-data FINAL/taxa/remaining-merged-classification.qza
-
+```
+```
+# Count features from individual classification files
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/ncbi-95/classification.qza \
 --o-visualization FINAL/taxa/ncbi-95/classification.qzv
@@ -725,125 +670,84 @@ qiime metadata tabulate \
 --m-input-file FINAL/taxa/silva-90/classification.qza \
 --o-visualization FINAL/taxa/silva-90/classification.qzv
 # 0
+# don't need to merge in this case
 
+# Merge
+qiime feature-table merge-taxa \
+--i-data FINAL/taxa/ncbi-95/classification.qza \
+--i-data FINAL/taxa/silva-90/classification.qza \
+--o-merged-data FINAL/taxa/remaining-merged-classification.qza
+
+# Count features from merged
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/remaining-merged-classification.qza \
 --o-visualization FINAL/taxa/remaining-merged-classification.qzv
 # 2
-
-
+```
+```
+# Merge
 qiime feature-table merge-taxa \
 --i-data FINAL/taxa/euk-merged-classification.qza \
 --i-data FINAL/taxa/maarjam-merged-classification.qza \
 --o-merged-data FINAL/taxa/euk-maarjam-merged-classification.qza
 
+# Count features from merged
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/euk-maarjam-merged-classification.qza \
 --o-visualization FINAL/taxa/euk-maarjam-merged-classification.qzv
 # 1,539
-
-
+```
+```
+# Merge
 qiime feature-table merge-taxa \
 --i-data FINAL/taxa/remaining-merged-classification.qza \
 --i-data FINAL/taxa/euk-maarjam-merged-classification.qza \
 --o-merged-data FINAL/taxa/final-merged-classification.qza
 
+# Count features from merged
 qiime metadata tabulate \
 --m-input-file FINAL/taxa/final-merged-classification.qza \
 --o-visualization FINAL/taxa/final-merged-classification.qzv
 #
+```
+<br>
 
-
-## 5.3 Remove Controls ##
-#########################
-
-# filter out negative samples
-qiime feature-table filter-samples \
---i-table FINAL/nanu-fungi-table.qza \
---m-metadata-file FINAL/nanu-metadata.tsv \
---p-where "SampleType IN ('Field', 'Trap-Sorgum', 'Trap-Bahia', 'Slurry')" \
---o-filtered-table FINAL/no-negs-nanu-fungi-table.qza
-
-# filter the representative sequences to have no negatives using the no-negs table.
-qiime feature-table filter-seqs \
---i-data FINAL/clean/nanu-rep-seqs.qza \
---i-table FINAL/no-negs-nanu-fungi-table.qza \
---o-filtered-data FINAL/no-negs-nanu-rep-seqs.qza
-
-qiime feature-table summarize \
---i-table FINAL/no-negs-nanu-fungi-table.qza \
---o-visualization FINAL/no-negs-nanu-table.qzv 
-
-
-
-################################
-	
-### 6. PRELIMINARY ANALYSES ###
-
-################################
-
-## 6.1 Phylogeny ##
-###################
-
-# create a phylogeny tree
-qiime phylogeny align-to-tree-mafft-fasttree \
---i-sequences FINAL/no_negs/no-negs-nanu-rep-seqs.qza \
---o-alignment FINAL/phylogeny/aligned-rep-seqs.qza \
---o-masked-alignment FINAL/phylogeny/masked-aligned-rep-seqs.qza \
---o-tree FINAL/phylogeny/unrooted-tree.qza \
---o-rooted-tree FINAL/phylogeny/rooted-tree.qza
-
-
-
-############################
-	
-### 7. EXPORT FILES TO R ###
-
-############################
-
-## 7.1 Feature Table ##
-#######################
-
+## STEP 11: Export Final Tables And Representative Sequences
+**Feature Table**
+```
 # export feature table and rep seqs (Qiime2 table.qza = feature table)
 qiime tools export \
-  --input-path FINAL/no_negs/no-negs-nanu-fungi-table.qza \
-  --output-path FINAL/no_negs/exported-feature-table
+  --input-path FINAL/nanu-fungi-table.qza \
+  --output-path FINAL/exported-feature-table
 
 # convert feature table to TSV format
 biom convert \
-  --input-fp FINAL/no_negs/exported-feature-table/feature-table.biom \
-  --output-fp FINAL/no_negs/exported-feature-table/feature-table.tsv \
+  --input-fp FINAL/exported-feature-table/feature-table.biom \
+  --output-fp FINAL/exported-feature-table/feature-table.tsv \
   --to-tsv
 
 # convert the tsv to a csv just in general command line 
-sed 's/\t/,/g' FINAL/no_negs/exported-feature-table/feature-table.tsv > FINAL/no_negs/exported-feature-table/feature-table.csv
+sed 's/\t/,/g' FINAL/exported-feature-table/feature-table.tsv > FINAL/exported-feature-table/feature-table.csv
 
-
-## 7.2 Rep Seqs ##
-##################
-
-# export the rep seqs
+```
+**Rep Seqs**
+```
 qiime tools export \
---input-path FINAL/no-negs-nanu-rep-seqs.qza \
---output-path FINAL/no_negs/exported-rep-seqs
-
-
-## 7.3 Taxonomy Table ##
-########################
-
-# export taxonomy
+--input-path FINAL/nanu-rep-seqs.qza \
+--output-path FINAL/exported-rep-seqs
+```
+**Taxonomy Table**
+```
 qiime tools export \
   --input-path FINAL/taxa/final-merged-classification.qza \
   --output-path FINAL/exported-taxonomy
   
 sed 's/\t/,/g' FINAL/exported-taxonomy/taxonomy.tsv > FINAL/exported-taxonomy/taxonomy.csv
-
-
- 
-## 7.4 Metadata Table ##
-########################
-
+```
+Metadata Table
+```
 sed 's/\t/,/g' FINAL/nanu_metadata_R.tsv > FINAL/nanu_metadata_R.csv
+```
 
 
 
