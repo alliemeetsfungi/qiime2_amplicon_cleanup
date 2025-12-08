@@ -11,16 +11,17 @@ For the purposes of this SOP, a local drive referes to your personal computer an
 You will often see the word "path" which tells you the location of a folder (called a directory) or a file. For example, if you see something like this "path/to/folder/file.ext" this would indicate that the file "file.ext" is inside of the folder "folder" which is inisde of the folder "to" which is inside of the folder "path". The extension of the file (.ext) indicates what kind of file it is, you've seen this before for common files such as PDF (.pdf) and Microsoft Office (.docx) files that contain different extensions.<br>
 ## STEP 1: Prepare Files & Environment
 <ins>Preparing Files For Qiime2</ins><br>
-To begin, make sure sequences are downloaded in an accessible location as fastq.gz files on the local drive.<br>
+To begin, make sure sequences are downloaded in an accessible location as fastq.gz files on the local drive.<br><br>
 If you're sequences are in the .fastq format, you can compress each .fastq file in a directory into .fastq.gz files:
 ```
 gzip path/to/fastq/sequence/files/*.fastq
 ```
-If you plan on using the HPC, theses .fast.qz files will need to be uploaded onto the cluster:
+If you plan on using the HPC, theses .fast.qz files will need to be uploaded onto the cluster from your local terminal:
 ```
 scp -r "path/to/folder" \ 
 user@koa.its.hawaii.edu:/home/user/path/to/directory/for/files
 ```
+NOTE: This will only work if you alrady have a KOA (or other HPC interface) account, see below for further details if you do not.<br><br>
 ### Installing Qiime2 on Local Drive (Apple Silicon)
 Further information for downloading Qiime2 on other interfaces can be found on the Qiime2 website found [HERE](https://docs.qiime2.org/2024.10/install/native/). 
 <br><br>
@@ -63,6 +64,7 @@ Once you have activated Qiime2, set your working directory along the same path t
 cd /path/to/working/directory
 ```
 ### Installing Qiime2 on the HPC
+NOTE: KOA has a much older version of Qiime2 already installed, however the code written in this SOP may not be compatible since it is written for a newer version of Qiime2. Installing the version associated with this SOP gaurantees code compatability.<br><br>
 To access KOA on the command line run the code below, then enter your UH password & designate two factor authentication preference. NOTE: password is invisible and does not show key strokes!
 ```
 ssh user@koa.its.hawaii.edu
@@ -104,6 +106,7 @@ cd /path/to/working/directory
 ```
 Now all of the code you run will be set to start at this directory and all paths can be defined based on the directories found within this location.<bR>
 ## STEP 2: Importing Sequences Into Qiime2
+Qiime2 uses "Qiime Artifact" files, with a .qza extension, to store large amounts of information in a compressed format. In order to use Qiime2, the information recorded in all of your sequence files will need to be imported into a Qiime artifact. Additionally, all output files made within Qiime2 will be initially made into Qiime artifacts and will be converted into other formats for visualization and export (explained in detail later on).<br>
 **WARNING:** Importing sequencing files into a Qiime artifact can take anywhere from **2-10 hours** depending on how much processing power your computer has (if running Qiime2 on your local drive) and how large your data set is.<br><br>
 The two approaches outlined below are for importing either (i) paired-end sequences (where you have a foward and reverse read for each sample) or (ii) single-end sequenes (generally only the foward read sequences for each sample) both of which use the Casava 1.8 method. This method requires sequences to be demultiplexed and in a specific format that is standard for sequences recieved from the Advanced Studies in Genomics, Proteomics, and Bioinformatics (ASGPB) center at University of Hawaiʻi at Mānoa. If your libraries were run outside of the University of Hawaiʻi at Mānoa, you may have to use an alternative importing approach. Further details on the formatting specifics required for importing sequences into a Qiime artifact, as well as other methods available can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).<br><br>
 Regardless of the approach you choose to take to import all of your .fastq.gz sequencing files into a single Qiime artifact there are <ins>two lines of code that should be modified</ins>. The first is the <ins>"--input-path"</ins> which should show the path to the folder where your sequencing files are stored. The second is the <ins>"--output-path"</ins> line which should contain the path where your want your Qiime2 artifcat to be stored, and what you want it to be named.
@@ -117,13 +120,13 @@ qiime tools import \
   --input-format CasavaOneEightSingleLanePerSampleDirFmt \
   --output-path path/to/where/qiime2/artifact/will/be/saved/file-name.qza
 ```
-Convert the Qiime2 artifcat (.qza) into a Qiime2 visualization file (.qzv)
+Convert the Qiime2 artifcat (.qza) into a Qiime2 visualization file (.qzv):
 ```
 qiime demux summarize \
   --i-data path/to/where/qiime2/artifact/was/saved/file-name.qza \
   --o-visualization path/to/where/qiime2/visual/file/will/be/saved/file-name.qzv
 ```
-Go to the Qiime2 Viewer on the browser found [HERE](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea) and upload the .qzv file to check and see if Forward and Reverse read counts are the same! The forum found [HERE](https://forum.qiime2.org/t/demultiplexed-sequence-length-summary-identical-forward-and-reverse-for-emp-paired-end-reads/20692) has more information on this.<br>
+Now that the Qiime artifact (.qza) has been converted into a Qiime visualization file (.qzv) we can actually visualize what the Qiime artifact contained. To do this, open your browser and navigate to the Qiime2 Viewer found [HERE](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea). You can now upload the .qzv file and observe if the Forward and Reverse read counts are the same (this is our first gut check)! [THIS FORUM](https://forum.qiime2.org/t/demultiplexed-sequence-length-summary-identical-forward-and-reverse-for-emp-paired-end-reads/20692) has more information on why this should be the outcome for paired-end sequences.<br>
 <ins>Using the Qiime2 Viewer, perform the following</ins><br>
 1. Record the total reads present for all your sequences.<br>
 2. Observe the quality of forward and reverse reads.<br>
