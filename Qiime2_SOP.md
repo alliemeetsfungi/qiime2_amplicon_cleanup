@@ -1,4 +1,4 @@
-# Qiime2 Amplicon Sequencinc Cleanup
+# Qiime2 Amplicon Sequencing Cleanup
 All of the code used here is compatible with the package <ins>Qiime2 amplicon version 2024.10.</ins>, documents and other tutorials for this version can be found [HERE](https://docs.qiime2.org/2024.10/).<br><br>
 The instructions and code for installing on a local drive are for macOS (Apple Silicon), and linux for installing on an HPC, but can be applied to other machines with modification.
 
