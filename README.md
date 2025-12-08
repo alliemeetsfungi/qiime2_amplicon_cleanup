@@ -286,16 +286,14 @@ qiime feature-table tabulate-seqs \
   --i-data path/to/results/directory/feature-rep-seqs.qza \
   --o-visualization path/to/results/directory/feature-rep-seqs.qzv
 ```
-Now upload this .qzv file onto the Qiime2 Viewer and record sequence count (features), and sequence length statistics.
-<br>Here, you can also download a .fasta file containing the sequence associated with each feature detected if desired, but this is also exported later on.
+Now upload this .qzv file onto the Qiime2 Viewer and record sequence count (features), and sequence length statistics. Here, you can also download a .fasta file containing the sequence associated with each feature detected if desired, but this is also exported later on.
 <br><br>Convert denoising statistics Qiime2 artifact (denoising-stats.qza) into visualization file (denoising-stats.qzv)
 ```
 qiime metadata tabulate \
   --m-input-file path/to/results/directory/denoising-stats.qza \
   --o-visualization path/to/results/directory/denoising-stats.qzv
 ```
-This table summarizes the sequencing reads for each sample that were able to pass the cleaning steps performed in DADA2. 
-<br>Record how many samples were able to retain an acceptable amount (atleast 25%) of their reads. Additionally, you can download the entire table for referencing later.
+This table summarizes the sequencing reads for each sample that were able to pass the cleaning steps performed in DADA2. Record how many samples were able to retain an acceptable amount (atleast 25%) of their reads. Additionally, you can download the entire table for referencing later.<br>
 <br><ins>Test 2: Trim sequences based on read quality</ins>
 Based on the quality plots produced in STEP 3 (post primer trimming paired-end sequences) set truncation length based on where the quality score begins to abrubtly drop below 20. 
 ```
@@ -325,9 +323,9 @@ qiime metadata tabulate \
   --m-input-file path/to/results/directory/denoising-stats.qza \
   --o-visualization path/to/results/directory/denoising-stats.qzv
 ```
-As described above, make sure that the number of samples, features, reads, sequence length statistics, and denoising statistics are recorded when provided, and download any file of interest (described above).<br>
+As described above, make sure that the number of samples, features, reads, sequence length statistics, and denoising statistics are recorded when provided, and download any file of interest.<br>
 ### Cleaning Forward Sequences
-<br><ins>Test 3: Trim forward sequences conservatively</ins>
+<ins>Test 3: Trim forward sequences conservatively</ins>
 <br>Choose to trim sequences shorter in order to avoid poor quality reads 
 ```
 qiime dada2 denoise-single \
@@ -337,28 +335,23 @@ qiime dada2 denoise-single \
   --o-representative-sequences path/to/results/directory/feature-rep-seqs.qza \
   --o-denoising-stats path/to/results/directory/denoising-stats.qza \
   --verbose
-```
-<br><br>Convert feature table Qiime2 artifact (feature-table.qza) into visualization file (feature-table.qzv)
-```
+
+# Visualize Feature Table
 qiime feature-table summarize \
   --i-table path/to/results/directory/feature-table.qza \
   --o-visualization path/to/results/directory/feature-table.qzv
-```
-Record the number of samples, features, and total frequency (reads)
-<br><br>Convert representative sequences Qiime2 artifcat (feature-rep-seqs.qza) into a visualization file (feature-rep-seqs.qzv)
-```
+
+# Visualize Representative Sequences
 qiime feature-table tabulate-seqs \
   --i-data path/to/results/directory/feature-rep-seqs.qza \
   --o-visualization path/to/results/directory/feature-rep-seqs.qzv
-```
-Record sequence count (features), sequence length statistics, and download .fasta file.
-<br><br>Convert denoising statistics Qiime2 artifact (denoising-stats.qza) into visualization file (denoising-stats.qzv)
-```
+
+# Visualize Denoising Statistics
 qiime metadata tabulate \
   --m-input-file path/to/results/directory/denoising-stats.qza \
   --o-visualization path/to/results/directory/denoising-stats.qzv
 ```
-<br>Record the number of samples that retained at least 25% of their reads, and download entire metadata table.
+As described above, make sure that the number of samples, features, reads, sequence length statistics, and denoising statistics are recorded when provided, and download any file of interest.
 <br><br><ins>Test 4: Trim forward sequences liberally</ins>
 <br>Choose to keep sequences longer with the risk of maintaining some poor quality reads
 ```
@@ -369,31 +362,22 @@ qiime dada2 denoise-single \
   --o-representative-sequences path/to/results/directory/feature-rep-seqs.qza \
   --o-denoising-stats path/to/results/directory/denoising-stats.qza \
   --verbose
-```
-<br><br>Convert feature table Qiime2 artifact (feature-table.qza) into visualization file (feature-table.qzv)
-```
+
 qiime feature-table summarize \
   --i-table path/to/results/directory/feature-table.qza \
   --o-visualization path/to/results/directory/feature-table.qzv
-```
-Record the number of samples, features, and total frequency (reads)
-<br><br>Convert representative sequences Qiime2 artifcat (feature-rep-seqs.qza) into a visualization file (feature-rep-seqs.qzv)
-```
+
 qiime feature-table tabulate-seqs \
   --i-data path/to/results/directory/feature-rep-seqs.qza \
   --o-visualization path/to/results/directory/feature-rep-seqs.qzv
-```
-Record sequence count (features), sequence length statistics, and download .fasta file.
-<br><br>Convert denoising statistics Qiime2 artifact (denoising-stats.qza) into visualization file (denoising-stats.qzv)
-```
+
 qiime metadata tabulate \
   --m-input-file path/to/results/directory/denoising-stats.qza \
   --o-visualization path/to/results/directory/denoising-stats.qzv
 ```
-<br>Record the number of samples that retained at least 25% of their reads, and download entire metadata table.
-<br><br><ins>Compare the number of features and number of samples with sufficient read retention among all tests. The test with the highest amount of features and samples with sufficient read retention should be used from this point forward.
+As described above, make sure that the number of samples, features, reads, sequence length statistics, and denoising statistics are recorded when provided, and download any file of interest (described above).
+<br><br><ins>Once all tests have been run, compare the number of features and number of samples with sufficient read retention among all tests.</ins> The test with the highest amount of features and samples with sufficient read retention should be used from this point forward.
 
-<br><br>
 ## STEP 5 (OPTIONAL!): Cluster ASVs into OTUs
 Use the feature table and representative sequences from the DADA2 cleanup with the best feature count and sample read retention outcome.
 <br><br>Cluster sequences into 97% identity
