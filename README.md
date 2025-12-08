@@ -259,8 +259,8 @@ To assure that the most features will be detected, multiple tests will be run at
 1. <ins>Feature Table</ins> (feature-table.qza)
 2. <ins>Representative Sequences</ins> of detected features (feature-rep-seqs.qza)
 3. <ins>Denoising Statistics</ins> that shows the breakdown of the reads which passed each cleaning step (filtering, denoising, merging, and chimeras) for every sample (denoising-stats.qza)
-<br>
-### Cleaning and Merging Paired-end Sequences
+
+### Cleaning and Merging Paired-end Sequences<br>
 <ins>Test 1: Maintain Entire Sequence length</ins><br>
 Setting the truncation length (--p-trunc-len-f & --p-trunc-len-r) to 300 should maintain the entire sequence for both foward and reverse reads.
 ```
