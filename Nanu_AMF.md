@@ -46,8 +46,8 @@ qiime feature-table summarize \
   --i-table FINAL/clean/nanu-table.qza \
   --o-visualization FINAL/clean/vis/nanu-table.qzv
 ```
-Observed details from Qiime2 Viewer:<br>
-Number of samples = 157<br>
+*Observed details from Qiime2 Viewer:*
+<br>Number of samples = 157<br>
 Number of features = 6,229<br>
 Total frequency = 10,132,044<br><br>
 *Frequency per sample:*
@@ -96,8 +96,8 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 --input-path Database_files/maarjam_database_SSU.qiime.2021/maarjam_database_SSU.qiime.txt \
 --output-path Database_files/maarjam-ref-tax.qza
 ```
-<br>
-<ins>Eukaryome QIIME2_EUK_SSU Version 1.9.4</ins>
+<ins>Eukaryome</ins><br>
+From the Eukaryome webpage QIIME2_EUK_SSU Version 1.9.4 was downloaded
 ```
 qiime tools import --type 'FeatureData[Sequence]' \
 --input-path Database_files/QIIME2_EUK_SSU_v1.9.4/QIIME2_EUK_SSU_v1.9.4.fasta \
@@ -109,7 +109,8 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 --output-path Database_files/eukaryome-ref-tax.qza
 ```
 <br>
-<ins>NCBI filtered for Glomeromycotina</ins>
+<ins>NCBI filtered for Glomeromycotina</ins><br>
+NCBI information is directly pulled into Qiime2 without downloading files from the webpage:
 ```
 qiime rescript get-ncbi-data \
 --p-query '18S[ALL] AND glomeromycotina [ORGN]' \
@@ -118,7 +119,8 @@ qiime rescript get-ncbi-data \
 --p-n-jobs 5
 ```
 <br>
-<ins>SILVA 132</ins><br>
+<ins>SILVA</ins><br>
+From the SILVA webpage Version 132 was downloaded:
 ```
 qiime tools import --type 'FeatureData[Sequence]' \
 --input-path Database_files/SILVA_132_QIIME_release/rep_set/rep_set_all/99/silva132_99.fna \
