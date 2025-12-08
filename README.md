@@ -8,8 +8,7 @@ This SOP is designed to assist those with using the Qiime2 package for (i) perfo
 ### Inisghts Into Bioinformatics Terminology:
 For the purposes of this SOP, a local drive referes to your personal computer and the High Perfomance Computer (HPC) that is used is the University of Hawaiʻi at Mānoa's cluster named KOA which can be accessed through the online interface [HERE](https://koa.its.hawaii.edu/) or through the command line (described below). In order to get access to the cluster (KOA) you need to be associated with the University of Hawaiʻi at Mānoa, register for an account [HERE](https://datascience.hawaii.edu/eligibility-sign-up/), and take the required onboarding. Once those steps are completed you can access the cluser with your UH username (described below).
 <br><br>
-You will often see the word "path" which tells you the location of a folder (called a directory) or a file. For example, if you see something like this "path/to/folder/file.ext" this would indicate that the file "file.ext" is inside of the folder "folder" which is inisde of the folder "to" which is inside of the folder "path". The extension of the file (.ext) indicates what kind of file it is, you've seen this before for commone files such as PDF (.pdf) and Microsoft Office (.docx) files that contain different extensions.
-<br>
+You will often see the word "path" which tells you the location of a folder (called a directory) or a file. For example, if you see something like this "path/to/folder/file.ext" this would indicate that the file "file.ext" is inside of the folder "folder" which is inisde of the folder "to" which is inside of the folder "path". The extension of the file (.ext) indicates what kind of file it is, you've seen this before for common files such as PDF (.pdf) and Microsoft Office (.docx) files that contain different extensions.<br>
 ## STEP 1: Prepare Files & Environment
 <ins>Preparing Files For Qiime2</ins><br>
 To begin, make sure sequences are downloaded in an accessible location as fastq.gz files on the local drive.<br>
@@ -63,7 +62,6 @@ Once you have activated Qiime2, set your working directory along the same path t
 ```
 cd /path/to/working/directory
 ```
-
 ### Installing Qiime2 on the HPC
 To access KOA on the command line run the code below, then enter your UH password & designate two factor authentication preference. NOTE: password is invisible and does not show key strokes!
 ```
@@ -104,8 +102,7 @@ For example, if your sequences are found in /home/project/sequences, set your wo
 ```
 cd /path/to/working/directory
 ```
-<br>
-
+Now all of the code you run will be set to start at this directory and all paths can be defined based on the directories found within this location.<bR>
 ## STEP 2: Importing Sequences Into Qiime2
 **WARNING:** Importing sequencing files into a Qiime artifact can take anywhere from **2-10 hours** depending on how much processing power your computer has (if running Qiime2 on your local drive) and how large your data set is.<br><br>
 The two approaches outlined below are for importing either (i) paired-end sequences (where you have a foward and reverse read for each sample) or (ii) single-end sequenes (generally only the foward read sequences for each sample) both of which use the Casava 1.8 method. This method requires sequences to be demultiplexed and in a specific format that is standard for sequences recieved from the Advanced Studies in Genomics, Proteomics, and Bioinformatics (ASGPB) center at University of Hawaiʻi at Mānoa. If your libraries were run outside of the University of Hawaiʻi at Mānoa, you may have to use an alternative importing approach. Further details on the formatting specifics required for importing sequences into a Qiime artifact, as well as other methods available can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).<br><br>
