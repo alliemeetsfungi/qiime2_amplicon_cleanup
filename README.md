@@ -683,7 +683,7 @@ qiime taxa filter-table \
 ```
 Using the resulting unassigned table as your input table, repeat these steps for all additional taxonomic query searches you performed in the same order in which they were run.
 <br><br>
-<ins>Database ONE 90% Identity</ins>
+<ins>90% Identity</ins>
 ```
 qiime taxa filter-table \
   --i-table path/to/search/results/database/directory-95/unassigned-table.qza \  #Your unassigned tabled made in the last step
@@ -697,7 +697,7 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/database/directory-90/unassigned-table.qza
 ```
-<ins>Database ONE 80% Identity</ins>
+<ins>80% Identity</ins>
 ```
 qiime taxa filter-table \
   --i-table path/to/search/results/database/directory-90/unassigned-table.qza \
@@ -711,9 +711,10 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/database/directory-80/unassigned-table.qza
 ```
-Repeat these steps for the second database query results in sequence.
+Repeat these steps for the second database query results in sequence.<br><br>
+**Database TWO**
 ```
-# Database TWO 95% identity
+# 95% identity
 qiime taxa filter-table \
   --i-table path/to/search/results/database/directory-80/unassigned-table.qza \
   --i-taxonomy path/to/search/results/NEW-database/directory-95/classification.qza \
@@ -727,7 +728,7 @@ qiime taxa filter-table \
   --o-filtered-table path/to/search/results/NEW-database/directory-95/unassigned-table.qza
 
 
-# Database TWO 90% identity
+# 90% identity
 qiime taxa filter-table \
   --i-table path/to/search/results/NEW-database/directory-95/unassigned-table.qza \
   --i-taxonomy path/to/search/results/NEW-database/directory-90/classification.qza \
@@ -741,7 +742,7 @@ qiime taxa filter-table \
   --o-filtered-table path/to/search/results/NEW-database/directory-90/unassigned-table.qza
 
 
-# Database TWO 80% identity
+# 80% identity
 qiime taxa filter-table \
   --i-table path/to/search/results/NEW-database/directory-90/unassigned-table.qza \
   --i-taxonomy path/to/search/results/NEW-database/directory-80/classification.qza \
