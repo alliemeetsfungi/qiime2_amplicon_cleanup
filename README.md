@@ -446,7 +446,6 @@ qiime rescript reverse-transcribe \
   --i-rna-sequences path/to/file/silva-138.2-rna-ref-seqs.qza \
   --o-dna-sequences desired/path/to/file/silva-138.2-ref-seqs.qza
 ```
-<br>
 
 ### Fungi (and other micro-eukaryotes) Databases
 **Eukaryome**
@@ -548,7 +547,7 @@ qiime taxa filter-seqs \
   --p-include unassigned \                                                                    #Key word for what you are filtering for (i.e, keeping)
   --o-filtered-sequences path/to/search/results/database/directory-95/unassigned-rep-seqs.qza #Remaining sequences that did not have taxa assigned under these BLAST search parameteres
 ```
-The final output made here (path/to/search/results/database/directory-95/unassigned-rep-seqs.qza) will be used as the input file for the next search query!<br>
+The final output made here (path/to/search/results/database/directory-95/unassigned-rep-seqs.qza) will be used as the input file for the next search query!<br><br>
 <ins>90% Identity</ins><br>
 The same code will be used for this search query, with the exception of the input file (which should be changed to your final filtered output file), the percent identity (change from 0.95 to 0.90), and the output directory.
 ```
@@ -573,7 +572,7 @@ qiime taxa filter-seqs \
   --o-filtered-sequences path/to/search/results/database/directory-90/unassigned-rep-seqs.qza #Remaining sequences that did not have taxa assigned under these search parameteres
 ```
 Using this final output, repeat the steps performed for 95% and 90% identities at 80% identity.
-<br>
+<br><br>
 <ins>80% Identity</ins>
 ```
 qiime feature-classifier classify-consensus-blast \
@@ -595,8 +594,8 @@ qiime taxa filter-seqs \
   --o-filtered-sequences path/to/search/results/database/directory-80/unassigned-rep-seqs.qza
 ```
 Now the remaining unassignd sequences can be run through the next database!
-<br><br>**Database TWO**
-<ins>95% Identity</ins>
+<br><br>**Database TWO**<br>
+<ins>95% Identity</ins><br>
 At this step, you need to change the path for the reference sequences (--i-reference-reads) and taxa (--i-reference-taxonomy) to the files associated with the new databases reference sequences and taxa. The remaining unassigned representative sequences (unassigned-rep-seqs.qza) from the previous database should be used for --i-query.
 ```
 qiime feature-classifier classify-consensus-blast \
@@ -639,6 +638,7 @@ qiime taxa filter-seqs \
   --p-include unassigned \
   --o-filtered-sequences path/to/search/results/NEW-database/directory-90/unassigned-rep-seqs.qza
 
+
 # 80% Identity BLAST Search
 qiime feature-classifier classify-consensus-blast \
   --i-query path/to/search/results/NEW-database/directory-90/unassigned-rep-seqs.qza \
@@ -662,12 +662,10 @@ qiime taxa filter-seqs \
 If you have more databases you are interested in running your representative sequences through for furhter taxonomic assignment, repeat these steps for each additional database. See (INSERT MY OWN PIPELINES HERE) for reference on using multiple databases for taxonomic assignment with a real dataset.
 <br>
 ## STEP 9: Filtering Feature Tables (OPTIONAL)
-Once you are satisfied with your taxonomic assignments using your representative sequences, you can filter your actual feature table to make tables that contain only taxonomically assigned features, or conversely only the remaining unassigned features.
-<br>
-<ins>Database ONE</ins>
-Begin with your original DADA2 feature table as your input table (feature-table.qza) and your classification file made from your first database at 95% identity. 
-<br>
-*Filtering for assigned features*
+Once you are satisfied with your taxonomic assignments using your representative sequences, you can filter your actual feature table to contain only taxonomically assigned features, or conversely only the remaining unassigned features.<br><br>
+**Database ONE**<br>
+Begin with your original DADA2 feature table as your input table (feature-table.qza) and your classification file made from your first database at 95% identity.<br><br>
+Filtering for <ins>assigned</ins\> features:
 ```
 qiime taxa filter-table \
   --i-table path/to/results/directory/feature-table.qza \                            #Your feature table from DADA2
@@ -675,7 +673,7 @@ qiime taxa filter-table \
   --p-exclude unassigned \                                                           #This will keep all features EXCEPT those that are annotated as unassigned
   --o-filtered-table path/to/search/results/database/directory-95/assigned-table.qza #Desired output path of table
 ```
-*Filtering for unassigned features*
+Filtering for <ins>UNassigned</ins> features:
 ```
 qiime taxa filter-table \
   --i-table path/to/results/directory/feature-table.qza \                            #Your feature table from DADA2
@@ -684,8 +682,8 @@ qiime taxa filter-table \
   --o-filtered-table path/to/search/results/database/directory-95/unassigned-table.qza #Output path of table
 ```
 Using the resulting unassigned table as your input table, repeat these steps for all additional taxonomic query searches you performed in the same order in which they were run.
-<br>
-*Database ONE 90% Identity*
+<br><br>
+<ins>Database ONE 90% Identity</ins>
 ```
 qiime taxa filter-table \
   --i-table path/to/search/results/database/directory-95/unassigned-table.qza \  #Your unassigned tabled made in the last step
@@ -699,7 +697,7 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/database/directory-90/unassigned-table.qza
 ```
-*Database ONE 80% Identity*
+<ins>Database ONE 80% Identity</ins>
 ```
 qiime taxa filter-table \
   --i-table path/to/search/results/database/directory-90/unassigned-table.qza \
@@ -728,6 +726,7 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/NEW-database/directory-95/unassigned-table.qza
 
+
 # Database TWO 90% identity
 qiime taxa filter-table \
   --i-table path/to/search/results/NEW-database/directory-95/unassigned-table.qza \
@@ -740,6 +739,7 @@ qiime taxa filter-table \
   --i-taxonomy path/to/search/results/NEW-database/directory-90/classification.qza \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/NEW-database/directory-90/unassigned-table.qza
+
 
 # Database TWO 80% identity
 qiime taxa filter-table \
@@ -754,9 +754,8 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table path/to/search/results/NEW-database/directory-80/unassigned-table.qza
 ```
-<br>Since the feature tables containing assigned taxa are made by subsetting the original table, they are found in multiple different tables. In order to retrieve a single feature table containing all of the assigned taxonomic features, all of the individual feature tables containing the assigned taxa will need to be merged. This does not need to be performed for the unassigned tables since you filter out the assigned taxa as you go rather than subset for them, making the final unassigned table your complete feature table containing all of the unassigned features. I like to make a copy of the final unassigned feature table, rename it along the lines of "final-unassigned-feature-table.qza", and move this copy to my final results folder for easier access, but this is strictly preference.
-WHAT IS THE POINT OF THIS????
-NOTE: Tables must be listed from largest to smallest in order for the merge to actually work. Generally, your first search query table will be the largest and your last will be the smallest.
+Since the feature tables containing assigned taxa are made by subsetting the original table, they are saved as multiple different tables. In order to retrieve a single feature table containing all of the assigned taxonomic features, all of the individual feature tables containing the assigned taxa will need to be merged. This does not need to be performed for the unassigned tables since you filter OUT the assigned taxa as you go rather than subset for them, making the final unassigned table your complete feature table containing all of the unassigned features. I like to make a copy of the final unassigned feature table, rename it along the lines of "final-unassigned-feature-table.qza", and move this copy to my final results folder for easier access, but this is strictly preference.<br><br>
+Merge all assigned tables:
 ```
 qiime feature-table merge \
   --i-tables path/to/search/results/database/directory-95/assigned-table.qza \
@@ -768,7 +767,7 @@ qiime feature-table merge \
   --o-merged-table path/to/final/results/directory/all-assigned-features-table.qza \
   --p-overlap-method sum
 ```
-Convert both the final assigned and unassigned feature tbale Qiime artifacts into a visualization files.
+Convert both the final assigned and unassigned feature table Qiime artifacts (.qza) into Visualization files (.qzv).
 ```
 # Final assigned feature table
 qiime feature-table summarize \
@@ -780,7 +779,7 @@ qiime feature-table summarize \
   --i-table path/to/search/results/NEW-database/directory-80/unassigned-table.qza \
   --o-visualization path/to/final/results/directory/all-unassigned-features-table.qzv
 ```
-Upload this onto the Qiime2 viewer and record the number of samples, features, and reads accounted for in both feature tables.
+Upload these onto the Qiime2 viewer and record the number of samples, features, and reads accounted for in both feature tables.
 <br><br>
 As a gut check, I like to merge both my assigned and unassigned feature tables to make sure that the sample, feature, and read counts match the original feature table from DADA2 (feature-table.qza). If the counts don't align, something went amiss when merging your assigned feature tables.
 ```
@@ -794,7 +793,7 @@ qiime feature-table summarize \
   --i-table path/to/final/results/directory/final-all-features-table.qza \
   --o-visualization path/to/final/results/directory/final-all-features-table.qzv
 ```
-Upload the visualization file and confirm that the sample, feature, and read counts match that of the feature-table.qza produced from DADA2.
+Upload the visualization file and confirm that the sample, feature, and read counts match that of the feature-table.qza produced from DADA2.<br>
 
 ## STEP 10: Merging Classification Files
 To retrieve your final taxa table, you will need to merge all of your classification files which can be a bit tricky. Before doing this, I like to determine how many features were annotated within each classfication file to make sure that merging is occurring correctly. To do this, all of the clalssification.qza Qiime artifacts will need to be converted into a visualization file.
