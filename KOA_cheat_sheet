@@ -1,0 +1,235 @@
+############################################
+##### General information and documents ####
+############################################
+
+# browser interface can be found here: https://koa.its.hawaii.edu 
+
+# important information and FAQs can be found here: https://uhawaii.atlassian.net/wiki/spaces/HPC/pages/9339450/Web+Portal
+
+#accessing KOA:
+ssh alliej@koa.its.hawaii.edu
+
+# start interactive job 
+srun -p shared --mem=100G -c 4 -t 06:00:00 --pty /bin/bash
+srun -I30 -p cmaiki --mem=100G -c 10 -t 06:00:00 --pty /bin/bash
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+## module commands ##
+#list of all available modules
+module avail
+
+#search modules
+module spider XXXXXX
+
+#load a module
+module load name/of/module
+
+#module actions
+module show name/of/module
+
+#show loaded modules
+module list
+
+#unload all modules
+module purge
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# Check user jobs
+squeue -u alliej
+
+# Check partition jobs
+squeue -p shared #or other partition
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+## UPLOADING DOCUMENTS FROM LOCAL DRIVE TO KOA ##
+# need to be signed out of koa (just on local command line), run code, then sign in and upload will start
+
+
+# uplaod one file at a time
+scp "path/to/file.ext" \ alliej@koa.its.hawaii.edu:/path/to/koa/directory
+
+#example code from pulling files on external hardrive to koa
+scp "/Volumes/LaCie/Thesis/Chapter 1 - Bromeliads/Sequencing/qiime2_cleanup/16s/16S-paired-end.qza" \
+alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/16s/
+
+
+# upload multiple files at a time
+scp "path/to/file1.ext" \ 
+	"path/to/file2.ext" \ 
+alliej@koa.its.hawaii.edu:/path/to/koa/directory
+
+#example code
+scp "/Volumes/LaCie/Thesis/Chapter 1 - Bromeliads/Sequencing/clean/ssu/denoise/otu_clustering/ssu-otu-rep-seqs.qza" \
+	"/Volumes/LaCie/Thesis/Chapter 1 - Bromeliads/Sequencing/clean/ssu/denoise/otu_clustering/ssu-otu-table.qza" \
+	alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/clean/ssu/denoise/otu_clustering
+
+
+# upload entire folder
+scp -r "path/to/folder" \ 
+alliej@koa.its.hawaii.edu:/path/to/koa/directory/
+
+#example code from pulling entire folder from external hardrive to koa
+scp -r "/Volumes/LaCie/Thesis/Chapter 1 - Bromeliads/Sequencing/qiime2_cleanup" \
+alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/qiime_files/
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+## DOWNLOADING FROM KOA TO LOCAL DRIVE ##
+# need to be on local computer terminal NOT signed into koa
+
+
+# for single files
+scp alliej@koa.its.hawaii.edu:/path/to/file.ext \ 
+~/path/to/directory
+
+#example code
+scp alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/clean/16s/16s-fwd.qzv \
+~/Downloads/
+
+
+# for multuple files; NOTE: will have to sign in multiple times!
+scp alliej@koa.its.hawaii.edu:/path/to/file1.ext \
+	alliej@koa.its.hawaii.edu:/path/to/file2.ext \
+~/path/to/directory
+
+#example code
+scp alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/taxa_id/ssu/euk-95/classification.qza \
+	alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/taxa_id/ssu/euk-95/search_results.qza \
+	alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/taxa_id/ssu/euk-95/unassigned-rep-seqs-95.qza \
+~/Downloads/
+
+
+# for entire directory
+scp -r alliej@koa.its.hawaii.edu:/path/to/file.ext \
+~/path/to/directory
+
+#example code
+scp -r alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/taxa_id \
+~/Downloads/
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# rename a file
+mv old_filename new_filename
+
+# move file to new directory
+	#NOTE: use entire path for destination regardless of current directory
+mv /path/to/file /path/to/destination/
+
+
+# copy files containting a sequence into a new directory
+cp /path/to/directory/*file-pattern.ext\
+	/path/to/new/directory
+
+#example code
+cp /mnt/lustre/koa/koastore/hynson_group/ajhall/bros/sequences/ssu_raw/ssu_gz/*R1_001.fastq.gz \
+/mnt/lustre/koa/koastore/hynson_group/ajhall/bros/sequences/ssu_raw/ssu_fwd_gz/
+
+
+########################################
+##### 	INSTALLING QIIME2 ON KOA 	####
+########################################
+
+#access KOA on command line:
+ssh alliej@koa.its.hawaii.edu
+
+#input uh password & designate two factor authentication preference
+
+# start interactive job 
+srun -p shared --mem=100G -c 4 -t 06:00:00 --pty /bin/bash
+
+# load anacobda module
+module load lang/Anaconda3/2024.02-1 
+
+# install qiime2 (note: line after -n is what the environment will be named!)
+conda env create -n qiime2 --file https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
+
+# check conda environments, what you named the environment should be present
+conda info - e
+## conda environments:                                                                                                                                        
+	# qiime2    /home/alliej/.conda/envs/qiime2                                                                                                     
+	#base       /opt/apps/software/lang/Anaconda3/2024.02-1  
+
+# Activate conda environment
+	# NOTE: this is different than how conda is activated on a personal computer!
+source activate qiime2
+
+
+
+####################################
+##### 	USING QIIME2 ON KOA 	####
+####################################
+
+#access KOA:
+ssh alliej@koa.its.hawaii.edu
+
+# start interactive job 
+srun -p shared --mem=100G -c 5 -t 06:00:00 --pty /bin/bash
+
+# load anacobda module
+module load lang/Anaconda3/2024.02-1
+
+# Activate conda environment (see note above)
+source activate qiime2
+
+
+
+#####################################################
+##### Creating Bash scripts & Running Batch jobs ####
+#####################################################
+
+#access KOA:
+ssh alliej@koa.its.hawaii.edu
+
+# DO NOT START INTERACTIVE SESSION
+
+# go to directory where you want bash script to live
+# example: cd where/you/want/the/file
+cd hynson_koastore/ajhall/bros/
+
+
+# Create a bash script file in koa
+#nano file.sh #use whatever name you want 
+nano 16s_clean.sh
+
+
+# General bash script parameters are defined below
+
+#!/bin/bash
+#SBATCH --job-name=NAME_OF_RUN
+#SBATCH --partition=shared 
+
+#SBATCH --time=01-00:00:00 ## time format is DD-HH:MM:SS
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=100G ## max amount of memory per node you require
+
+#SBATCH --error=job%A.err ## %A - filled with jobid
+#SBATCH --output=job%A.out ## %A - filled with jobid
+#SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE,TIME_LIMIT_80
+#SBATCH --mail-user=alliej@hawaii.edu
+
+# Commands you actually want to run below here (remove this line)
+module load lang/Anaconda3/2024.02-1 
+source activate qiime2
+cd /home/alliej/hynson_koastore/ajhall/bros
+
+qiime tools import \
+  --type 'SampleData[PairedEndSequencesWithQuality]' \
+  --input-path clean/16s-manifest-Ph33-koa.txt \
+  --output-path clean/16s/16s-paired-end.qza \
+  --input-format PairedEndFastqManifestPhred33V2
+  
+
+# Save bash script (control X, Y, hit enter)
+
+# Run a batch job 
+#sbatch /your/directory/file.sh 
+sbatch 16s_clean.sh
+
+
+# Cancel a batch job
+scancel JOBID
