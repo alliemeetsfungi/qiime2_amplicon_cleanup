@@ -21,7 +21,7 @@ If you plan on using the HPC, theses .fast.qz files will need to be uploaded ont
 scp -r "path/to/folder" \ 
 user@koa.its.hawaii.edu:/home/user/path/to/directory/for/files
 ```
-NOTE: This will only work if you alrady have a KOA (or other HPC interface) account, see below for further details if you do not.<br><br>
+NOTE: This will only work if you alrady have a KOA (or other HPC interface) account, see below for further details if you do not.<br>
 ### Installing Qiime2 on Local Drive (Apple Silicon)
 Further information for downloading Qiime2 on other interfaces can be found on the Qiime2 website found [HERE](https://docs.qiime2.org/2024.10/install/native/). 
 <br><br>
