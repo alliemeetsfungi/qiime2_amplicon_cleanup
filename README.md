@@ -34,7 +34,7 @@ conda config --env --set subdir osx-64
 ```
 <ins>The following output (or very similar) should be printed on the terminal window:</ins>
 <br>*Channels:*
-<br> *- "https://packages.qiime2.org/qiime2/2024.10/amplicon/released"*
+<br> *- `https://packages.qiime2.org/qiime2/2024.10/amplicon/released`*
 <br> *- conda-forge*
 <br> *- bioconda*
 <br> *- defaults*
