@@ -166,13 +166,13 @@ zcat /path/to/file.fastq.gz | echo $((`wc -l`/4))
 4. Re-rerun import code above and check the .qzv file to see if the problem was fixed
 <br><br>
 ### Import Forward sequences using Casava 1.8 single-end demultiplexed fastq method
-<br><ins>Copy all foward sequences into new directory before importing sequences!</ins>
+<ins>Copy all foward sequences into new directory before importing sequences!</ins>
 <br>All forward sequence files share a common suffix in their file names such as READ1.fastq.gz or R1_001.fastq.gz. Use this shared suffix, unique from the reverse reads (READ2.fastq.gz or R2_001.fastq.gz), to differentiate forward from reverse reads within the code.
 ```
 cp /path/to/directory/*R1_001.fastq.gz \
 /path/to/new/directory
 ```
-Import sequences into a Qiime2 artifact (.qza)
+Import forward sequences into a Qiime2 artifact (.qza)
 ```
 qiime tools import \
   --type 'SampleData[SequencesWithQuality]' \
@@ -180,36 +180,45 @@ qiime tools import \
   --input-format CasavaOneEightSingleLanePerSampleDirFmt \
   --output-path path/to/where/qiime2/artifact/will/be/saved/file-name.qza
 ```
-Convert qiime artifcat into visualization file 
+Convert Qiime2 artifcat into visualization file.
 ```
 qiime demux summarize \
   --i-data path/to/where/qiime2/artifact/was/saved/file-name.qza \
   --o-visualization path/to/where/qiime2/artifact/will/be/saved/file-name.qzv
 ```
 See paired-end section for next steps using the Qiime2 visualization file (.qzv)
-<br><br>If running multiple tests on the same set of sequences, single end and paired-end outputs should have the output parameters with the exception of no Reverse section being shown.
+<br><br>If running multiple tests on the same set of sequences, single end and paired-end outputs should have the same output parameters for the forward sequences.
 <br><br>
 ## STEP 3: Trim Primers From Sequences
-This section uses cutadapt, the handbook can be found [HERE](https://docs.qiime2.org/2024.10/plugins/available/cutadapt/index.html).
+To trim primers from all sequences, Qiime2 uses uses cutadapt (handbook found [HERE](https://docs.qiime2.org/2024.10/plugins/available/cutadapt/index.html)).
 <br>For background on trimming Golay barcodes see [THIS](https://forum.qiime2.org/t/cutadapt-adapter-vs-front/15450) forum page.
 
 **Primers commonly used in our studies:**
-<br><ins>Bacterial small ribosomal subunit (16S) V4 amplicon using 515F/806R primers</ins>. Amplified region is ~
+<br><ins>Bacterial small ribosomal subunit (16S) V4 amplicon using 515F/806R primers</ins>. 
+  <br>Amplicon ~ 250-300 bp
   <br>515F (Forward primer): 5′-GTGYCAGCMGCCGCGGTAA-3′
   <br>806R (Reverse primer): 5′-GGACTACNVGGGTWTCTAAT-3′
 <br><br><ins>Arbuscular Mycorrhizal Fungi (AMF) small ribosomal subunit (18s) V4 amplicon using WANDA/AML2 primers</ins>. See Kacie Kajihara's paper [HERE](https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.18058).
+  <br>Amplicon ~ 500 bp
   <br>WANDA (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>AML2 (Reverse Primer): 5′-GAACCCAAACACTTTGGTTTCC-3′
 <br><br><ins>Fungi small ribosomal subunit (18s) V3-V4 amplicon using 18S-82F/Euk-516r primers</ins>. See Jason Baer's paper [HERE](https://academic.oup.com/ismej/article/19/1/wraf228/8284954#supplementary-data).
+  <br>Amplicon ~
   <br>18S-82F (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>Euk-516R (Reverse Primer): 5′-ACCAGACTTGCCCTCC-3′
-<br><br><ins>Orchid Mycorrhizal Fungi (OMF) Internal Transcribed Spacer 2 (ITS2) amplicon using fITS7 paired with either Tul1F or Tul2F</ins>. See Wang et al. 2023 [HERE](https://nph.onlinelibrary.wiley.com/doi/full/10.1111/nph.19385).
+<br><br><ins>Orchid Mycorrhizal Fungi (OMF) Internal Transcribed Spacer 2 (ITS2) amplicon using fITS7 paired with either Tul1F or Tul2F</ins>
+  <br>Amplicon ~
   <br>fITS7 (Forward Primer): 5′-GTGARTCATCGAATCTTTG-3′
-  <br>Tul1F (Reverse Primer): 5′-CGTYGGATCCCTYGGC-3′
-  <br>Tul2F (Reverse Primer): 5′-TGGATCCCTTGGCACGTC-3′
+  <br>ITS4 (Reverse Primer): 5′-TCCTCCGCTTATTGATATGC-3′
+  <br>Amplicon ~
+  <br>Tul1F (Forward Primer): 5′-CGTYGGATCCCTYGGC-3′
+  <br>ITS4-Tul2 (Reverse Primer): 5′-TTCTTTTCCTCCGCTGAWTA-3′
+  <br>Amplicon ~
+  <br>Tul2F (Forward Primer): 5′-TGGATCCCTTGGCACGTC-3′
+  <br>ITS4-Tul2 (Reverse Primer): 5′-TTCTTTTCCTCCGCTGAWTA-3′
 <br><br>
 ### Trim Primers From Paired-end Sequences
-<br>This method trims primers based on primer sequence rather than length
+This method trims primers based on primer sequence rather than length, assuring that the correct region is trimmed off rather than only trimming off the initial ambiguous regions commonly seen in sequencing results (i.e., a region with NNNNNNN).
 ```
 qiime cutadapt trim-paired \
    --i-demultiplexed-sequences path/to/where/qiime2/import/artifact/was/saved/file-name.qza \
@@ -217,28 +226,26 @@ qiime cutadapt trim-paired \
    --p-front-r REVPRIMERSEQUENCE \
    --o-trimmed-sequences path/to/where/file/will/be/saved/file-name.qza \
    --verbose
-```
---verbose tells Qiime2 to print out the logging output to the terminal while it runs the command. This can help trouble shoot any errors that may occur during the run, but is not necessary for trimming process.
-<br><br>Convert qiime artifcat into visualization file
-```
+
+# Convert .qza into .qzv
 qiime demux summarize \
   --i-data path/to/where/file/was/saved/file-name.qza \
   --o-visualization path/to/where/file/will/be/saved/file-name.qzv
 ```
-Go to Qiime2 Viewer on browser and upload the .qzv file, <ins>record total reads and any other pertinent information</ins>. Compare these outputs to your imported outputs from STEP 2. There shouldn't be any differences if everything worked correctly!
+--verbose tells Qiime2 to print out the logging output to the terminal while it runs the command. This can help trouble shoot any errors that may occur during the run, but is not necessary for trimming process. When running codes with a bash scripts on the HPC, these will be printed in the .out files produced from that job.<br>
+<br>
+Go to the Qiime2 Viewer on the browser and upload the .qzv file, <ins>record total reads and any other pertinent information</ins>. Compare these outputs to your imported outputs from STEP 2. There shouldn't be any differences if everything worked correctly!
 <br><br>Scroll to the very bottom of the "Overview" page and click "Download as TSV" to download per-sample-fastq-counts.tsv post primer trimming if desired.
 <br><br>
 ### Trim Primers From Forward Sequences
-<br>This method is similar to trimming primers off of paired end sequences, with minor differences.
+This method is similar to trimming primers off of paired end sequences, with minor differences.
 ```
 qiime cutadapt trim-single \
    --i-demultiplexed-sequences path/to/where/qiime2/import/artifact/was/saved/file-name.qza \
    --p-front FWDPRIMERSEQUENCE \
    --o-trimmed-sequences path/to/where/file/will/be/saved/file-name.qza \
    --verbose
-```
-Convert qiime artifcat into visualization file
-```
+
 qiime demux summarize \
   --i-data path/to/where/file/was/saved/file-name.qza \
   --o-visualization path/to/where/file/will/be/saved/file-name.qzv
@@ -246,7 +253,7 @@ qiime demux summarize \
 See paired-end section for next steps using the Qiime2 visualization file (.qzv)
 <br><br>If running multiple tests on the same set of sequences, single end and paired-end outputs should have identical parameters.
 <br><br>
-## STEP 4: DADA2: Trimming, Merging, Denoising, and Feature Calling of Sequences
+## STEP 4: DADA2 - Trimming, Merging, Denoising, and Feature Calling of Sequences
 To assure that the most features will be detected, multiple tests will be run at this step based on post primer trimming quality plots.
 <br><br>This process will produce three Qiime2 artifacts:
 1. <ins>Feature Table</ins> (feature-table.qza)
