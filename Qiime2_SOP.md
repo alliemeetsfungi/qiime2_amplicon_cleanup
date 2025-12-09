@@ -202,7 +202,7 @@ To trim primers from all sequences, Qiime2 uses uses cutadapt (handbook found [H
   <br>WANDA (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>AML2 (Reverse Primer): 5′-GAACCCAAACACTTTGGTTTCC-3′
 <br><br><ins>Fungi small ribosomal subunit (18s) V3-V4 amplicon using 18S-82F/Euk-516r primers</ins>. See Jason Baer's paper [HERE](https://academic.oup.com/ismej/article/19/1/wraf228/8284954#supplementary-data).
-  <br>Amplicon ~
+  <br>Amplicon ~ 484 bp (Rachik et al. 2018)
   <br>18S-82F (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>Euk-516R (Reverse Primer): 5′-ACCAGACTTGCCCTCC-3′
 <br><br><ins>Orchid Mycorrhizal Fungi (OMF) Internal Transcribed Spacer 2 (ITS2) amplicon using fITS7 paired with either Tul1F or Tul2F</ins>
@@ -466,7 +466,7 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 <br>
 
 **National Center for Biotechnology Information (NCBI)**
-<br>The reference sequences and taxonomic files from the most up to date version of the NCBI database can be pulled straight from the NCBI server and imported into Qiime2:
+<br>The reference sequences and taxonomic files from the most up to date version of the NCBI database can be pulled straight from the NCBI server and imported into Qiime2 as a classifier:
 ```
 qiime rescript get-ncbi-data \
   --p-query '18S[ALL] AND fungi[ORGN]' \
@@ -483,7 +483,7 @@ qiime rescript get-ncbi-data \
 --p-n-jobs 5
 
 ```
-<br>
+See [THIS](https://forum.qiime2.org/t/using-rescript-to-compile-sequence-databases-and-taxonomy-classifiers-from-ncbi-genbank/15947) forum for more details on importing the classifier, and see [THIS](https://www.ncbi.nlm.nih.gov/books/NBK49540/) page for more information on the appropriate syntax needed for making adjusting to the --p-query search.<br>
 
 **MaarjAM**
 <br>Qiime2 compatable files can be downloaded [HERE](https://maarjam.ut.ee/?action=bDownload). This code is based on MaarjAM VT sequences of 18S rDNA gene region QIIME release (2021) for identifying Arbuscular Mycorrhizal Fungi (AMF).
@@ -936,13 +936,34 @@ scp user@koa.its.hawaii.edu:/home/user/path/to/results/directory/file.ext \ ~/pa
 ```
 <br><br><br>
 ### References
-1. Qiime2
-2. Eukaryome
-3. Maarjam
-4. Silva
-5. greengenes2
-6. ncbi
-7. gtdb
-8. unite
-9. others?
+1. Abarenkov, Kessy; Zirk, Allan; Piirmann, Timo; Pöhönen, Raivo; Ivanov, Filipp; Nilsson, R. Henrik; Kõljalg, Urmas (2025): UNITE QIIME release for Fungi. Version 19.02.2025. UNITE Community.
+
+2. Abarenkov, K., Nilsson, R. H., Larsson, K.-H., Taylor, A. F. S., May, T. W., Frøslev, T. G., Pawlowska, J., Lindahl, B., Põldmaa, K., Truong, C., Vu, D., Hosoya, T., Niskanen, T., Piirmann, T., Ivanov, F., Zirk, A., Peterson, M., Cheeke, T. E., Ishigami, Y., … Kõljalg, U. (2024). The UNITE database for molecular identification and taxonomic communication of fungi and other eukaryotes: Sequences, taxa and classifications reconsidered. Nucleic Acids Research, 52(D1), D791–D797. https://doi.org/10.1093/nar/gkad1039
+
+3. Baer, J. L., Kajihara, K. T., Vilonen, L. L., Hall, A. J., Young, C. M., Yogi, D. K., Medeiros, M. C. I., Amend, A. S., & Hynson, N. A. (2025). Microbiome spatial scaling varies among members, hosts, and environments across model island ecosystems. The ISME Journal, 19(1), wraf228. https://doi.org/10.1093/ismejo/wraf228
+
+4. Bolyen, E., Rideout, J. R., Dillon, M. R., Bokulich, N. A., Abnet, C. C., Al-Ghalith, G. A., Alexander, H., Alm, E. J., Arumugam, M., Asnicar, F., Bai, Y., Bisanz, J. E., Bittinger, K., Brejnrod, A., Brislawn, C. J., Brown, C. T., Callahan, B. J., Caraballo-Rodríguez, A. M., Chase, J., … Caporaso, J. G. (2019). Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2. Nature Biotechnology, 37(8), Article 8. https://doi.org/10.1038/s41587-019-0209-9
+
+5. Chuvochina, M., Gerken, J., Frentrup, M., Sandikci, Y., Goldmann, R., Freese, H. M., Göker, M., Sikorski, J., Yarza, P., Quast, C., Peplies, J., Glöckner, F. O., & Reimer, L. C. (2025). SILVA in 2026: A global core biodata resource for rRNA within the DSMZ digital diversity. Nucleic Acids Research, gkaf1247. https://doi.org/10.1093/nar/gkaf1247
+
+6. Cox, E., Tsuchiya, M. T. N., Ciufo, S., Torcivia, J., Falk, R., Anderson, W. R., Holmes, J. B., Hem, V., Breen, L., Davis, E., Ketter, A., Zhang, P., Soussov, V., Schoch, C. L., & O’Leary, N. A. (2025). NCBI Taxonomy: Enhanced access via NCBI Datasets. Nucleic Acids Research, 53(D1), D1711–D1715. https://doi.org/10.1093/nar/gkae967
+
+7. Kajihara, K. T., Egan, C. P., Swift, S. O. I., Wall, C. B., Muir, C. D., & Hynson, N. A. (2022). Core arbuscular mycorrhizal fungi are predicted by their high abundance–occupancy relationship while host‐specific taxa are rare and geographically structured. New Phytologist, 234(4), 1464–1476. https://doi.org/10.1111/nph.18058
+
+8. Oja, J., Kohout, P., Tedersoo, L., Kull, T., & Kõljalg, U. (2015). Temporal patterns of orchid mycorrhizal fungi in meadows and forests as revealed by 454 pyrosequencing. New Phytologist, 205(4), 1608–1618. https://doi.org/10.1111/nph.13223
+
+9. Öpik, M., Vanatoa, A., Vanatoa, E., Moora, M., Davison, J., Kalwij, J. M., Reier, Ü., & Zobel, M. (2010). The online database Maarj AM reveals global and ecosystemic distribution patterns in arbuscular mycorrhizal fungi (Glomeromycota). New Phytologist, 188(1), 223–241. https://doi.org/10.1111/j.1469-8137.2010.03334.x
+
+10. Tedersoo, L., Hosseyni Moghaddam, M. S., Mikryukov, V., Hakimzadeh, A., Bahram, M., Nilsson, R. H., Yatsiuk, I., Geisen, S., Schwelm, A., Piwosz, K., Prous, M., Sildever, S., Chmolowska, D., Rueckert, S., Skaloud, P., Laas, P., Tines, M., Jung, J.-H., Choi, J. H., … Anslan, S. (2024). EUKARYOME: The rRNA gene reference database for identification of all eukaryotes. Database, 2024, baae043. https://doi.org/10.1093/database/baae043
+
+11. Wang, D., Trimbos, K. B., Gomes, S. I. F., Jacquemyn, H., & Merckx, V. S. F. T. (2024). Metabarcoding read abundances of orchid mycorrhizal fungi are correlated to copy numbers estimated using ddPCR. New Phytologist, 242(4), 1825–1834. https://doi.org/10.1111/nph.19385
+
+12. White TJ, Bruns T, Lee S, Taylor J. 1990. Ampliﬁcation and direct sequencingof fungal ribosomal RNA genes for phylogenetics. In: Innis MA, Gelfand DH,Sninsky JJ, White TJ, eds. PCR protocols: a guide to methods and applications.New York, NY, USA: Academic Press, 315–322
+
+
+
+
+13. greengenes2
+14. gtdb
+15. others?
 
