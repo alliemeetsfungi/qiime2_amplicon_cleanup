@@ -193,19 +193,22 @@ To trim primers from all sequences, Qiime2 uses uses cutadapt (handbook found [H
 <br>For background on trimming Golay barcodes see [THIS](https://forum.qiime2.org/t/cutadapt-adapter-vs-front/15450) forum page.
 
 **Primers commonly used in our studies:**
-<br><ins>Bacterial small ribosomal subunit (16S) V4 amplicon using 515F/806R primers</ins>. 
+<br><ins>Bacterial small ribosomal subunit (16S)</ins> V4 amplicon using 515F/806R primers (*CITE*).<br>
+See Jason Baer's paper [HERE](https://academic.oup.com/ismej/article/19/1/wraf228/8284954#supplementary-data) to see recent work we've done using this primer set.
   <br>Amplicon ~ 250-300 bp
   <br>515F (Forward primer): 5′-GTGYCAGCMGCCGCGGTAA-3′
   <br>806R (Reverse primer): 5′-GGACTACNVGGGTWTCTAAT-3′
-<br><br><ins>Arbuscular Mycorrhizal Fungi (AMF) small ribosomal subunit (18s) V4 amplicon using WANDA/AML2 primers</ins>. See Kacie Kajihara's paper [HERE](https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.18058).
+<br><br><ins>Arbuscular Mycorrhizal Fungi (AMF)</ins> small ribosomal subunit (18s) V4 amplicon using WANDA/AML2 primers(*Lee et al., 2008*).<br>
+See Kacie Kajihara's paper [HERE](https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.18058) on AMF communities in Hawaiʻi!
   <br>Amplicon ~ 500 bp
   <br>WANDA (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>AML2 (Reverse Primer): 5′-GAACCCAAACACTTTGGTTTCC-3′
-<br><br><ins>Fungi small ribosomal subunit (18s) V3-V4 amplicon using 18S-82F/Euk-516r primers</ins>. See Jason Baer's paper [HERE](https://academic.oup.com/ismej/article/19/1/wraf228/8284954#supplementary-data).
-  <br>Amplicon ~ 484 bp (Rachik et al. 2018)
+<br><br><ins>Fungi small ribosomal subunit (18s)</ins> V3-V4 amplicon using 18S-82F/Euk-516r primers (*Rachik et al. 2018*).<br>
+See Jason Baer's paper [HERE](https://academic.oup.com/ismej/article/19/1/wraf228/8284954#supplementary-data) to see recent work we've done using this primer set.
+  <br>Amplicon ~ 484 bp
   <br>18S-82F (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′
   <br>Euk-516R (Reverse Primer): 5′-ACCAGACTTGCCCTCC-3′
-<br><br><ins>Orchid Mycorrhizal Fungi (OMF) Internal Transcribed Spacer 2 (ITS2) amplicon using fITS7 paired with either Tul1F or Tul2F</ins>
+<br><br><ins>Orchid Mycorrhizal Fungi (OMF)</ins> Internal Transcribed Spacer 2 (ITS2) amplicon using fITS7 paired with either Tul1F or Tul2F</ins>
   <br>Amplicon ~
   <br>fITS7 (Forward Primer): 5′-GTGARTCATCGAATCTTTG-3′
   <br>ITS4 (Reverse Primer): 5′-TCCTCCGCTTATTGATATGC-3′
@@ -950,20 +953,24 @@ scp user@koa.its.hawaii.edu:/home/user/path/to/results/directory/file.ext \ ~/pa
 
 7. Kajihara, K. T., Egan, C. P., Swift, S. O. I., Wall, C. B., Muir, C. D., & Hynson, N. A. (2022). Core arbuscular mycorrhizal fungi are predicted by their high abundance–occupancy relationship while host‐specific taxa are rare and geographically structured. New Phytologist, 234(4), 1464–1476. https://doi.org/10.1111/nph.18058
 
-8. Oja, J., Kohout, P., Tedersoo, L., Kull, T., & Kõljalg, U. (2015). Temporal patterns of orchid mycorrhizal fungi in meadows and forests as revealed by 454 pyrosequencing. New Phytologist, 205(4), 1608–1618. https://doi.org/10.1111/nph.13223
+8. Lee, J., Lee, S., & Young, J. P. W. (2008). Improved PCR primers for the detection and identification of arbuscular mycorrhizal fungi: PCR primers for arbuscular mycorrhizal fungi. FEMS Microbiology Ecology, 65(2), 339–349. https://doi.org/10.1111/j.1574-6941.2008.00531.x
 
-9. Öpik, M., Vanatoa, A., Vanatoa, E., Moora, M., Davison, J., Kalwij, J. M., Reier, Ü., & Zobel, M. (2010). The online database Maarj AM reveals global and ecosystemic distribution patterns in arbuscular mycorrhizal fungi (Glomeromycota). New Phytologist, 188(1), 223–241. https://doi.org/10.1111/j.1469-8137.2010.03334.x
+9. Oja, J., Kohout, P., Tedersoo, L., Kull, T., & Kõljalg, U. (2015). Temporal patterns of orchid mycorrhizal fungi in meadows and forests as revealed by 454 pyrosequencing. New Phytologist, 205(4), 1608–1618. https://doi.org/10.1111/nph.13223
 
-10. Tedersoo, L., Hosseyni Moghaddam, M. S., Mikryukov, V., Hakimzadeh, A., Bahram, M., Nilsson, R. H., Yatsiuk, I., Geisen, S., Schwelm, A., Piwosz, K., Prous, M., Sildever, S., Chmolowska, D., Rueckert, S., Skaloud, P., Laas, P., Tines, M., Jung, J.-H., Choi, J. H., … Anslan, S. (2024). EUKARYOME: The rRNA gene reference database for identification of all eukaryotes. Database, 2024, baae043. https://doi.org/10.1093/database/baae043
+10. Öpik, M., Vanatoa, A., Vanatoa, E., Moora, M., Davison, J., Kalwij, J. M., Reier, Ü., & Zobel, M. (2010). The online database Maarj AM reveals global and ecosystemic distribution patterns in arbuscular mycorrhizal fungi (Glomeromycota). New Phytologist, 188(1), 223–241. https://doi.org/10.1111/j.1469-8137.2010.03334.x
+    
+12. Rachik, S., Christaki, U., Li, L. L., Genitsaris, S., Breton, E., & Monchy, S. (2018). Diversity and potential activity patterns of planktonic eukaryotic microbes in a mesoeutrophic coastal area (eastern English Channel). PLOS ONE, 13(5), e0196987. https://doi.org/10.1371/journal.pone.0196987
 
-11. Wang, D., Trimbos, K. B., Gomes, S. I. F., Jacquemyn, H., & Merckx, V. S. F. T. (2024). Metabarcoding read abundances of orchid mycorrhizal fungi are correlated to copy numbers estimated using ddPCR. New Phytologist, 242(4), 1825–1834. https://doi.org/10.1111/nph.19385
+13. Tedersoo, L., Hosseyni Moghaddam, M. S., Mikryukov, V., Hakimzadeh, A., Bahram, M., Nilsson, R. H., Yatsiuk, I., Geisen, S., Schwelm, A., Piwosz, K., Prous, M., Sildever, S., Chmolowska, D., Rueckert, S., Skaloud, P., Laas, P., Tines, M., Jung, J.-H., Choi, J. H., … Anslan, S. (2024). EUKARYOME: The rRNA gene reference database for identification of all eukaryotes. Database, 2024, baae043. https://doi.org/10.1093/database/baae043
 
-12. White TJ, Bruns T, Lee S, Taylor J. 1990. Ampliﬁcation and direct sequencingof fungal ribosomal RNA genes for phylogenetics. In: Innis MA, Gelfand DH,Sninsky JJ, White TJ, eds. PCR protocols: a guide to methods and applications.New York, NY, USA: Academic Press, 315–322
+14. Wang, D., Trimbos, K. B., Gomes, S. I. F., Jacquemyn, H., & Merckx, V. S. F. T. (2024). Metabarcoding read abundances of orchid mycorrhizal fungi are correlated to copy numbers estimated using ddPCR. New Phytologist, 242(4), 1825–1834. https://doi.org/10.1111/nph.19385
+
+15. White TJ, Bruns T, Lee S, Taylor J. 1990. Ampliﬁcation and direct sequencingof fungal ribosomal RNA genes for phylogenetics. In: Innis MA, Gelfand DH,Sninsky JJ, White TJ, eds. PCR protocols: a guide to methods and applications.New York, NY, USA: Academic Press, 315–322
 
 
 
 
-13. greengenes2
-14. gtdb
-15. others?
+16. greengenes2
+17. gtdb
+18. others?
 
