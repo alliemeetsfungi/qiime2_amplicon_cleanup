@@ -666,7 +666,7 @@ qiime taxa filter-seqs \
   --p-include unassigned \
   --o-filtered-sequences path/to/database/search/results/NEW-database/directory-80/unassigned-rep-seqs.qza
 ```
-If you have more databases you are interested in running your representative sequences through for furhter taxonomic assignment, repeat these steps for each additional database. See (INSERT MY OWN PIPELINES HERE) for reference on using multiple databases for taxonomic assignment with a real dataset.
+If you have more databases you are interested in running your representative sequences through for furhter taxonomic assignment, repeat these steps for each additional database. See the [Distance-Decay-18S-QIIME2-PIPELINE.md](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/Distance-Decay-18S-QIIME2-Pipeline.md) for reference on using multiple databases for taxonomic assignment with a real dataset.
 <br>
 ## STEP 9 (OPTIONAL!): Filtering Feature Tables
 Once you are satisfied with your taxonomic assignments using your representative sequences, you can filter your actual feature table to contain only taxonomically assigned features, or conversely only the remaining unassigned features.<br><br>
