@@ -640,22 +640,14 @@ qiime taxa filter-seqs \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/silva-80/unassigned-rep-seqs.qza
 ```
+<br>
 
-
-################################################################
-	
-### 8. FILTER TAXA TABLES FOR ASSIGNED & UNASSIGNED FEATURES ###
-
-################################################################
-
-# Filter final ASV table to make tables containing all identified and not identified features
-	# NOTE: Final ASV table should only be used for initial filtering, use the unassigned output file for each filtering run for subsequent filtering steps
-
-
-## 8.1 Eukaryome ##
-#~~~~~~~~~~~~~~~~~#
-
-# 95%: filter for assigned vs unassigned from the original dada2 table (trimmed-table.qza)
+## STEP 9 (OPTIONAL!): Filtering Feature Tables
+Filter final ASV table to make tables containing all identified and not identified features.
+<br>NOTE: Final ASV table should only be used for initial filtering, use the unassigned output file for each filtering run for subsequent filtering steps.<br><br>
+**STEP 9.1 Eukaryome**
+95% ID: filter for assigned vs unassigned from the original dada2 table (trimmed-table.qza)
+```
 qiime taxa filter-table \
   --i-table clean/ssu/denoise/fwd-table.qza \
   --i-taxonomy taxa_id/ssu/euk-95/classification.qza \
@@ -667,9 +659,9 @@ qiime taxa filter-table \
   --i-taxonomy taxa_id/ssu/euk-95/classification.qza \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/euk-95/unassigned-table.qza
-
-
-# 90%: use resulting unassigned-table.qza as input table
+```
+90% ID: use resulting unassigned-table.qza as input table
+```
 qiime taxa filter-table \
   --i-table taxa_id/ssu/euk-95/unassigned-table.qza \
   --i-taxonomy taxa_id/ssu/euk-90/classification.qza \
@@ -681,9 +673,9 @@ qiime taxa filter-table \
   --i-taxonomy taxa_id/ssu/euk-90/classification.qza \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/euk-90/unassigned-table.qza
-
-
-# 80%
+```
+80% ID
+```
 qiime taxa filter-table \
   --i-table taxa_id/ssu/euk-90/unassigned-table.qza \
   --i-taxonomy taxa_id/ssu/euk-80/classification.qza \
@@ -695,12 +687,13 @@ qiime taxa filter-table \
   --i-taxonomy taxa_id/ssu/euk-80/classification.qza \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/euk-80/unassigned-table.qza
+```
+<br>
 
-
-## 8.2 NCBI ##
-#~~~~~~~~~~~~#
-
-# 95%: use resulting unassigned-table.qza table that holds the remaining unassigned features after eukaryome 80%
+**STEP 9.2 NCBI**
+Use the resulting unassigned-table.qza table that holds the remaining unassigned features after eukaryome 80%
+```
+# 95% ID
 qiime taxa filter-table \
   --i-table taxa_id/ssu/euk-80/unassigned-table.qza \
   --i-taxonomy taxa_id/ssu/ncbi-95/classification.qza \
@@ -714,7 +707,7 @@ qiime taxa filter-table \
   --o-filtered-table taxa_id/ssu/ncbi-95/unassigned-table.qza
 
 
-# 90%
+# 90% ID
 qiime taxa filter-table \
   --i-table taxa_id/ssu/ncbi-95/unassigned-table.qza \
   --i-taxonomy taxa_id/ssu/ncbi-90/classification.qza \
@@ -728,7 +721,7 @@ qiime taxa filter-table \
   --o-filtered-table taxa_id/ssu/ncbi-90/unassigned-table.qza
 
 
-# 80%
+# 80% ID
 qiime taxa filter-table \
   --i-table taxa_id/ssu/ncbi-90/unassigned-table.qza \
   --i-taxonomy taxa_id/ssu/ncbi-80/classification.qza \
@@ -740,12 +733,13 @@ qiime taxa filter-table \
   --i-taxonomy taxa_id/ssu/ncbi-80/classification.qza \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/ncbi-80/unassigned-table.qza
+```
+<br>
 
-
-## 8.3 SILVA ##
-#~~~~~~~~~~~~~# 
-
-# 95%
+**STEP 9.3 SILVA**
+Use the resulting unassigned-table.qza table that holds the remaining unassigned features after NCBI 80%
+```
+# 95% ID
 qiime taxa filter-table \
   --i-table taxa_id/ssu/ncbi-80/unassigned-table.qza \
   --i-taxonomy taxa_id/ssu/silva-95/classification.qza \
@@ -785,19 +779,12 @@ qiime taxa filter-table \
   --i-taxonomy taxa_id/ssu/silva-80/classification.qza \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/silva-80/unassigned-table.qza
+```
+<br>
 
-
-
-###########################################################
-	
-### 9. MERGE ALL FILTERED TABLES & CLASSIFICATION FILES ###
-
-###########################################################
-
-
-## 9.1 Tables Containing ONLY Assigned Features ##
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
+**STEP 9.4 Merge Tables**
+Combine all assigned-table.qza files to make a single table containing all assigned features:
+```
 qiime feature-table merge \
   --i-tables taxa_id/ssu/euk-95/assigned-table.qza \
   --i-tables taxa_id/ssu/euk-90/assigned-table.qza \
@@ -814,35 +801,24 @@ qiime feature-table merge \
 qiime feature-table summarize \
   --i-table taxa_id/ssu/ssu-assigned-table.qza \
   --o-visualization taxa_id/ssu/ssu-assigned-table.qzv
-#Samples: 456
-#Features: 9,192
-#Reads: 7,581,774
-
-
-
-
-## 9.2 Unassigned Feature Tables ##
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-# The final unassigned-table.qza created from silva-80 holds all features that were not able to be assigned
-
-# Copy and rename final unassinged table into folder containing all final taxa documents (taxa_id/ssu)
+```
+Samples: 456<br>
+Features: 9,192<br>
+Reads: 7,581,774<br><br>
+The final unassigned-table.qza created from silva-80 holds all features that were not able to be assigned.<br>
+Copy and rename final unassinged table into folder containing all final taxa documents (taxa_id/ssu)
+```
 cp taxa_id/ssu/silva-80/unassigned-table.qza taxa_id/ssu/ssu-unassigned-table.qza
 
 qiime feature-table summarize \
   --i-table taxa_id/ssu/ssu-unassigned-table.qza \
   --o-visualization taxa_id/ssu/ssu-unassigned-table.qzv
-#Samples: 405
-#Features: 1,647
-#Reads: 163,694
-
-
-
-## 9.3 Merge Assigned & Unassigned Tables ##
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-# This is for a gut check! Should be the same as the original table filtered from (trimmed-table.qza)
-
+```
+Samples: 405<br>
+Features: 1,647<br>
+Reads: 163,694<br><br>
+As as a gut check, merge assigned and unassigned table to see if the sample, feature, and read counts are the same as the table they were originally filtered from (fwd-table.qza)
+```
 qiime feature-table merge \
   --i-tables taxa_id/ssu/ssu-assigned-table.qza \
   --i-tables taxa_id/ssu/ssu-unassigned-table.qza \
@@ -852,21 +828,27 @@ qiime feature-table merge \
 qiime feature-table summarize \
   --i-table taxa_id/ssu/ssu-all-table.qza \
   --o-visualization taxa_id/ssu/ssu-all-table.qzv
-#Samples: 461 #not sure why one less sample than in fwd-table.qzv.....
-#Features: 10,839
-#Frequency: 7,745,468
-
-
-# NOTE: Feature count from this table should = total features found in fwd-table.qzv!
-
-
-
-## 9.4 Taxonomy Classification Files ##
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-###!!! Check counts for all classification files before merging !!!###
-
-#~~~ Eukaryome ~~~# #~~~ 9,069 ~~~#
+```
+Samples: 461<br>
+Features: 10,839<br>
+Frequency: 7,745,468<br><br>
+The same code was run for the ssu OTU table (ssu-otu-table.qza) and counts are as follows:
+1. ssu-otu-assigned-table.qza:
+Samples: 451<br>
+Features: 4,141<br>
+Reads: 5,032,398<br>
+2. ssu-otu-unassigned-table.qza
+Samples: 339<br>
+Features: 682<br>
+Reads: 85,882<br>
+3. #ssu-otu-all-table.qza
+Samples: 455<br>
+Features: 4,823<br>
+Reads: 5,118,280<br>
+## STEP 10: Merging Classification Files
+Check counts for all classification files before merging !!!
+```
+# Eukaryome
 qiime metadata tabulate \
   --m-input-file taxa_id/ssu/euk-95/classification.qza \
   --o-visualization taxa_id/ssu/euk-95/classification.qzv
@@ -882,8 +864,10 @@ qiime metadata tabulate \
   --o-visualization taxa_id/ssu/euk-80/classification.qzv
 #633
 
+# Eukaryome total = 9,069
 
-#~~~~ NCBI ~~~~# #~~~ 79 ~~~#
+
+# NCBI
 qiime metadata tabulate \
   --m-input-file taxa_id/ssu/ncbi-95/classification.qza \
   --o-visualization taxa_id/ssu/ncbi-95/classification.qzv
@@ -899,13 +883,15 @@ qiime metadata tabulate \
   --o-visualization taxa_id/ssu/ncbi-80/classification.qzv
 #45
 
+# NCBI Total = 79
 
-#~~~ SILVA ~~~# #~~~ 44 ~~~#
+# SILVA
 qiime metadata tabulate \
   --m-input-file taxa_id/ssu/silva-95/classification.qza \
-  --o-visualization taxa_id/ssu/silva-95/classification.qzvqiime metadata tabulate \
+  --o-visualization taxa_id/ssu/silva-95/classification.qzv
 #3
 
+qiime metadata tabulate \
   --m-input-file taxa_id/ssu/silva-90/classification.qza \
   --o-visualization taxa_id/ssu/silva-90/classification.qzv
 #27
@@ -915,14 +901,12 @@ qiime metadata tabulate \
   --o-visualization taxa_id/ssu/silva-80/classification.qzv
 #14
 
-#~~~ 9,192 Assigned Features ~~~#
-
-
-
-##!!! Merge classification files !!!###
-	# NOTE: tables only merge IF the lower % ID file is listed first!
-
-#~~~ Eukaryome ~~~# #~~~ 9,069 ~~~#
+# SILVA Total = 44
+```
+There were 9,192 total assigned features found within the classification files.<br><br>
+Merge classification files: <ins>NOTE: tables only merge IF the lower % ID file is listed first<br>
+```
+# Eukaryome
 qiime feature-table merge-taxa \
   --i-data taxa_id/ssu/euk-90/classification.qza \
   --i-data taxa_id/ssu/euk-95/classification.qza \
@@ -945,7 +929,7 @@ qiime metadata tabulate \
 #9,069
 
 
-#~~~~ NCBI ~~~~# #~~~ 79 ~~~#
+# NCBI
 qiime feature-table merge-taxa \
   --i-data taxa_id/ssu/ncbi-90/classification.qza \
   --i-data taxa_id/ssu/ncbi-95/classification.qza \
@@ -968,7 +952,7 @@ qiime metadata tabulate \
 #79
 
 
-#~~~ Eukaryome + NCBI ~~~# #~~~ 9,148 ~~~#
+# Eukaryome + NCBI
 qiime feature-table merge-taxa \
   --i-data taxa_id/ssu/ncbi_merged_taxonomy.qza \
   --i-data taxa_id/ssu/euk_merged_taxonomy.qza \
@@ -980,7 +964,7 @@ qiime metadata tabulate \
 #9,148
 
 
-#~~~ SILVA ~~~# #~~~ 44 ~~~#
+# SILVA 
 qiime feature-table merge-taxa \
   --i-data taxa_id/ssu/silva-90/classification.qza \
   --i-data taxa_id/ssu/silva-95/classification.qza \
@@ -990,6 +974,7 @@ qiime metadata tabulate \
   --m-input-file taxa_id/ssu/silva_partial_merged_taxonomy.qza \
   --o-visualization taxa_id/ssu/silva_partial_merged_taxonomy.qzv
 #30
+
 
 qiime feature-table merge-taxa \
   --i-data taxa_id/ssu/silva-80/classification.qza \
@@ -1002,7 +987,7 @@ qiime metadata tabulate \
 #44
 
 
-#~~~ 9,192 Assigned Features ~~~#
+# FINAL MERGE
 qiime feature-table merge-taxa \
   --i-data taxa_id/ssu/silva_merged_taxonomy.qza \
   --i-data taxa_id/ssu/euk_ncbi_merged_taxonomy.qza \
@@ -1011,73 +996,37 @@ qiime feature-table merge-taxa \
 qiime metadata tabulate \
   --m-input-file taxa_id/ssu/ssu-taxonomy.qza \
   --o-visualization taxa_id/ssu/ssu-taxonomy.qzv
-#Total features = 10,839
-#Total Unassigned = 1,647
-#Total assigned = 9,148(k_) + 44(d_) 
-                = 9,192
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-
-# The same code was run for the ssu OTU table (ssu-otu-table.qza) and counts are as follows:
-
-#ssu-otu-assigned-table.qza
-#Samples: 451
-#Features: 4,141
-#Reads: 5,032,398
-
-
-#ssu-otu-unassigned-table.qza
-#Samples: 339
-#Features: 682
-#Reads: 85,882
-
-
-#ssu-otu-all-table.qza
-#Samples: 455
-#Features: 4,823
-#Reads: 5,118,280
-
-
-#~~~ Eukaryome ~~~# #~~~ 4,028 ~~~#
-#euk-95: 1,822
-#euk-90: 1,758
-#euk-80: 448
-
-
-#~~~~ NCBI ~~~~# #~~~ 100 ~~~#
-#ncbi-95: 3
-#ncbi-90: 5
-#ncbi-80: 92
-
-
-#~~~ SILVA ~~~# #~~~ 13 ~~~#
-#silva-90: 7
-#silva-80: 6
-
-
-#~~~ 4,141 Assigned Features ~~~#
-
-# Final output file for SSU OTU taxonomic identification is ssu-otu-taxonomy.qza
-#Total Features: 4,823
-#Total Unassigned: 682
-#Total Assigned: 4,128 (k_) + 13 (d_)
-                = 4,141
-
-
-
-###############################################
-	
-### 10. EXPORT ALL REP SEQS & MERGED TABLES ###
-
-###############################################
-
-
-# Export feature table (only if step 5 was skipped) #
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-# Export feature table (QIIME 2 table.qza = feature table)
+# 10,839
+```
+Summary of final taxa table:<br>
+Total features = 10,839<br>
+Total Unassigned = 1,647<br>
+Total assigned = 9,192<br><br>
+The same code was run for the ssu OTU table (ssu-otu-table.qza) and counts are as follows:
+1. Eukaryome: 4,028<br>
+euk-95: 1,822<br>
+euk-90: 1,758<br>
+euk-80: 448<br>
+2. NCBI: 100<br>
+ncbi-95: 3<br>
+ncbi-90: 5<br>
+ncbi-80: 92<br>
+3. SILVA: 13<br>
+silva-90: 7<br>
+silva-80: 6<br>
+4. Total Assigned Features: 4,141
+5. Final output file for SSU OTU taxonomic identification is ssu-otu-taxonomy.qza<br>
+Total Features: 4,823<br>
+Total Unassigned: 682<br>
+Total Assigned: 4,141<br><br>
+## STEP 11: Export Final Tables And Representative Sequences
+The final files to be exported are as follows:
+1. Feature/ASV table: fwd-table.qza
+2. Representative Sequences: fwd-rep-seqs.qza
+3. Taxonomy Table: ssu-taxonomy.qza
+<br>
+**Export Feature Table (only if step 5 was skipped):**
+```
 qiime tools export \
   --input-path clean/ssu/denoise/fwd-table.qza \
   --output-path clean/ssu/feature-table
@@ -1090,24 +1039,22 @@ biom convert \
 
 # Convert .tsv to .csv
 sed 's/\t/,/g' clean/ssu/feature-table/ssu-feature-table.tsv > clean/ssu/feature-table/ssu-feature-table.csv
+```
+<br>
 
-
-
-# Export representative sequences #
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
+**Export Representative Sequences:**
+```
 qiime tools export \
   --input-path clean/ssu/denoise/fwd-rep-seqs.qza \
   --output-path clean/ssu/rep-seqs
 
 # Rename for clarity
 mv clean/ssu/rep-seqs/dna-sequences.fasta clean/ssu/rep-seqs/ssu-rep-sequences.fasta
+```
+<br>
 
-
-
-# Export Taxonomy Table #
-#~~~~~~~~~~~~~~~~~~~~~~~#
-
+**Export Taxonomy Table:**
+```
 qiime tools export \
   --input-path taxa_id/ssu/ssu-taxonomy.qza \
   --output-path clean/ssu/taxonomy
@@ -1117,30 +1064,20 @@ mv clean/ssu/taxonomy/taxonomy.tsv clean/ssu/taxonomy/ssu-taxonomy.tsv
 
 # Convert .tsv to .csv
 sed 's/\t/,/g' clean/ssu/taxonomy/ssu-taxonomy.tsv > clean/ssu/taxonomy/ssu-taxonomy.csv
+```
+<br>
 
-
-
-# Download to local drive #
-#~~~~~~~~~~~~~~~~~~~~~~~~~#
-
-# In terminal NOT signed in to KOA (aka local drive) #
-
-# Download an entire directory
-scp -r alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/taxa_id/ \
-~/Downloads/
-
-scp -r alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/database_files/ \
-~/Downloads/
-
+**Download to local drive**
+In local terminal NOT signed in to KOA (aka local drive):
+```
+# Download the entire directory
 scp -r alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/clean/ \
 ~/Downloads/
-
-
 
 # Download a single file if need be
 scp alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/clean/ssu/taxonomy/ssu-taxonomy.csv \
 ~/Downloads/
-
+```
 
 
 
