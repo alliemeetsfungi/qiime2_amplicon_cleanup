@@ -345,8 +345,8 @@ Total Reads: 6,700,55<br>
 Sample Count: 462<br>
 Features: 10,050<br>
 % samples w/ read retention >25%: 94%<br><br>
-**Compare Among Tests**
-Choose the approach that detected the highest number of features with the largest read retention to move forward with. For this data set this correlates to test 5 ((see [18s_qiime2_output_summary.csv](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/18s_qiime2_output_summary.csv)).<br><br>
+**Compare Among Tests**<br>
+Choose the approach that detected the highest number of features with the largest read retention to move forward with. For this data set this correlates to test 5 (see [18s_qiime2_output_summary.csv](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/18s_qiime2_output_summary.csv)).<br><br>
 Files moving foward with are as follows:
 1. Feature table: fwd-table.qza
 2. Representative Sequences: fwd-rep-seqs.qza
@@ -474,7 +474,7 @@ qiime taxa filter-seqs \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/euk-95/unassigned-rep-seqs.qza #remaining sequences that did not have taxa assigned
 ```
-<br><ins>90% ID</ins>
+<ins>90% ID</ins>
 ```
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/euk-95/unassigned-rep-seqs.qza \ #change to final unnassigned taxa rep-seqs.qza to fill in the unknowns!
@@ -494,7 +494,7 @@ qiime taxa filter-seqs \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/euk-90/unassigned-rep-seqs.qza #remaining sequences that did not have taxa assigned
 ```
-<br><ins>80% ID</ins>
+<ins>80% ID</ins>
 ```
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/euk-90/unassigned-rep-seqs.qza \
@@ -638,7 +638,6 @@ qiime taxa filter-seqs \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/silva-80/unassigned-rep-seqs.qza
 ```
-<br>
 
 ## STEP 9 (OPTIONAL!): Filtering Feature Tables
 Filter final ASV table to make tables containing all identified and not identified features.
@@ -672,7 +671,7 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/euk-90/unassigned-table.qza
 ```
-<ins>80% ID</ins>
+<ins>80% ID:</ins> use resulting unassigned-table.qza from 90% ID as input table
 ```
 qiime taxa filter-table \
   --i-table taxa_id/ssu/euk-90/unassigned-table.qza \
@@ -831,15 +830,15 @@ Samples: 461<br>
 Features: 10,839<br>
 Frequency: 7,745,468<br><br>
 The same code was run for the ssu OTU table (ssu-otu-table.qza) and counts are as follows:
-1. ssu-otu-assigned-table.qza:
+1. ssu-otu-assigned-table.qza:<br>
 Samples: 451<br>
 Features: 4,141<br>
 Reads: 5,032,398<br>
-2. ssu-otu-unassigned-table.qza
+2. ssu-otu-unassigned-table.qza<br>
 Samples: 339<br>
 Features: 682<br>
 Reads: 85,882<br>
-3. ssu-otu-all-table.qza
+3. ssu-otu-all-table.qza<br>
 Samples: 455<br>
 Features: 4,823<br>
 Reads: 5,118,280<br>
@@ -901,8 +900,8 @@ qiime metadata tabulate \
 
 # SILVA Total = 44
 ```
-There were 9,192 total assigned features found within the classification files.<br><br>
-Merge classification files: <ins>NOTE: tables only merge IF the lower % ID file is listed first<br>
+There were 9,192 total assigned features found among all the classification files.<br><br>
+Merge classification files: <ins>NOTE: tables only merge IF the file containing the least data is listed first<br>
 ```
 # Eukaryome
 qiime feature-table merge-taxa \
@@ -1023,7 +1022,7 @@ The final files to be exported are as follows:
 2. Representative Sequences: fwd-rep-seqs.qza
 3. Taxonomy Table: ssu-taxonomy.qza
 <br>
-**Export Feature Table (only if step 5 was skipped):**
+<ins>Export Feature Table</ins> (only if step 5 was skipped):
 ```
 qiime tools export \
   --input-path clean/ssu/denoise/fwd-table.qza \
@@ -1038,9 +1037,7 @@ biom convert \
 # Convert .tsv to .csv
 sed 's/\t/,/g' clean/ssu/feature-table/ssu-feature-table.tsv > clean/ssu/feature-table/ssu-feature-table.csv
 ```
-<br>
-
-**Export Representative Sequences:**
+<br><ins>Export Representative Sequences:</ins>
 ```
 qiime tools export \
   --input-path clean/ssu/denoise/fwd-rep-seqs.qza \
@@ -1049,9 +1046,7 @@ qiime tools export \
 # Rename for clarity
 mv clean/ssu/rep-seqs/dna-sequences.fasta clean/ssu/rep-seqs/ssu-rep-sequences.fasta
 ```
-<br>
-
-**Export Taxonomy Table:**
+<br><ins>Export Taxonomy Table:</ins>
 ```
 qiime tools export \
   --input-path taxa_id/ssu/ssu-taxonomy.qza \
@@ -1063,9 +1058,7 @@ mv clean/ssu/taxonomy/taxonomy.tsv clean/ssu/taxonomy/ssu-taxonomy.tsv
 # Convert .tsv to .csv
 sed 's/\t/,/g' clean/ssu/taxonomy/ssu-taxonomy.tsv > clean/ssu/taxonomy/ssu-taxonomy.csv
 ```
-<br>
-
-**Download to local drive**
+<br><ins>Download all to local drive</ins><br>
 In local terminal NOT signed in to KOA (aka local drive):
 ```
 # Download the entire directory
