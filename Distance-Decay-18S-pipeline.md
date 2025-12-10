@@ -1,4 +1,4 @@
-**NOTE:** The steps for the code below are directly correlated to the steps outlined in the [QIIME 2_SOP.md](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/QIIME2_SOP.md), thus some jumps will be observed between step numbers.<br><br>
+**NOTE:** The steps for the code below are directly correlated to the steps outlined in the [QIIME2_SOP.md](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/QIIME2_SOP.md), thus some jumps will be observed between step numbers.<br><br>
 ## STEP 1: Prepare Files & Environment
 <ins>Preparing Files For QIIME 2</ins><br>
 On the local command line run the following code to upload all .fastq.gz files onto KOA:
@@ -11,9 +11,8 @@ alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/sequences/ssu
 Access KOA on command line:
 ```
 ssh alliej@koa.its.hawaii.edu
+# When prompted, input UH password & designate two factor authentication preference.
 ```
-When prompted, input UH password & designate two factor authentication preference.<br><br>
-
 Start interactive job (NOTE: the more memory (--mem) and cores (-c) you ask for, the longer it will take to be given resources):
 ```
 srun -p shared --mem=100G -c 4 -t 06:00:00 --pty /bin/bash
@@ -22,7 +21,7 @@ Load anaconda module:
 ```
 module load lang/Anaconda3/2024.02-1 
 ```
-Install qiime2 (NOTE: line after -n is what the environment will be named! Here it is qiime2):
+Install QIIME 2 (NOTE: line after -n is what the environment will be named! Here it is qiime2):
 ```
 conda env create -n qiime2 --file https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.10-py310-linux-conda.yml
 ```
@@ -33,7 +32,7 @@ conda info - e
 	#qiime2    /home/alliej/.conda/envs/qiime2                                                                                                     
 	#base       /opt/apps/software/lang/Anaconda3/2024.02-1  
 ```
-We can see that qiime2 exists within the conda environment, now it can be activated on the HPC at any time after starting an interactive job and loading the Anaconda module:
+We can see that "qiime2" exists within the conda environment, now it can be activated on the HPC at any time after starting an interactive job and loading the Anaconda module:
 ```
 source activate qiime2
 ```
@@ -41,11 +40,10 @@ Go to working directory where raw sequences can be accessed from the folder they
 ```
 cd hynson_koastore/ajhall/bros/sequences
 ```
-<br>
 
 ## STEP 2: Importing Sequences Into QIIME 2
 Further details and instructions can be found [HERE](https://docs.qiime2.org/2024.10/tutorials/importing/).<br>
-Visualization files can be viewed [HERE](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea).<br><br>
+Visualization files can be viewed [HERE](https://view.qiime2.org/?src=e96f979f-4cc6-46fc-800f-abe58740e4ea).
 ### Import paired-end sequences using Casava 1.8 paired-end demultiplexed fastq method
 ```
 qiime tools import \
@@ -92,7 +90,7 @@ alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/sequences/16s
 ```
 zcat /home/alliej/hynson_koastore/ajhall/bros/sequences/16s_raw/16s_gz/DD-LY-P2-BR11-L_S87_L001_R1_001.fastq.gz | echo $((`wc -l`/4))
 ```
-6. Re-run import code above to make your QIIME 2 artifact containing all of your raw sequences and check to make sure that the forward and reverse read counts are identical.<br><br>
+6. Re-run import code above to make your QIIME 2 artifact containing all of your raw sequences and check to make sure that the forward and reverse read counts are identical.<br>
 ### Import Forward sequences using Casava 1.8 single-end demultiplexed fastq method
 Copy all foward sequences into new directory:
 ```
@@ -117,7 +115,7 @@ Download per sample count .tsv file, saved as "ssu-fwd-casava-per-sample-fastq-c
 ## STEP 3: Trim Primers From Sequences
 18S-82F/Euk-516R primers with Nextera indices were used for amplification & sequencing of the V3-V4 region of the fungal small ribosomal subunit:<br>
 18S-82F (Forward Primer): 5′-GAAACTGCGAATGGCTC-3′<br>
-Euk-516R (Reverse Primer): 5′-ACCAGACTTGCCCTCC-3′<br>
+Euk-516R (Reverse Primer): 5′-ACCAGACTTGCCCTCC-3′<br><br>
 These sequences will be used detect and trim primers, rather than trimming by length (which could only remove ambiguous base calls rather than the primers).<br><br>
 **Trim primers for the paired-end sequences:**
 ```
@@ -139,7 +137,7 @@ Minimum: 101<br>
 Median: 24842.0<br>
 Mean: 27740.121212<br>
 Maximum: 101084<br>
-Total: 12815936<br>
+Total: 12815936<br><br>
 These should still match the reads that were observed for the raw import file. If there are less reads, non-target or over trimming may have occured!<br><br>
 **Trim primers for the forward sequences:**
 ```
@@ -156,7 +154,7 @@ qiime demux summarize \
 Download per sample count .tsv file, saved as "ssu-fwd-prim-trim-per-sample-fastq-counts.tsv"<br>
 Forward only sequence count summaries should be the same as paired-end! <br>
 ## STEP 4: DADA2 - Trimming, Merging, Denoising, and Feature Calling of Sequences
-This step performs multiple "tests" in order to determine what the best approach should be taken (i.e, maintain paired-end vs. keeping only forward sequences, longer vs. shorter sequence truncation). Three outputs are produced for each test, all of which should be converted into a visualization file and viwed on QIIME 2View. The sample, read, and feature count should all be recorded (see [18s_qiime2_output_summary.csv](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/18s_qiime2_output_summary.csv) for one approach to do this).
+This step performs multiple "tests" in order to determine what the best approach should be taken (i.e, maintain paired-end vs. keeping only forward sequences, longer vs. shorter sequence truncation). Three outputs are produced for each test, all of which should be converted into a visualization file and viwed on QIIME 2View. The sample, read, and feature count should all be recorded (see [18s_qiime2_output_summary.csv](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/18s_qiime2_output_summary.csv) for one approach to do this).<br><br>
 **Paired-end sequences**<br>
 <ins>Test 1: De-noise & merge sequences without trimming:</ins>
 ```
@@ -256,7 +254,7 @@ Total Reads: 4,808,719<br>
 Sample Count: 462<br>
 Features: 10,126<br>
 % samples w/ read retention >25%: 87%<br><br>
-**Forward sequences**
+**Forward sequences**<br>
 <ins>Test 4: De-noise forward sequences w/out trimming:</ins><br>
 ```
 qiime dada2 denoise-single \
@@ -347,9 +345,9 @@ Total Reads: 6,700,55<br>
 Sample Count: 462<br>
 Features: 10,050<br>
 % samples w/ read retention >25%: 94%<br><br>
-### Compare Among Tests
-Choose the approach that detected the highest number of features with the largest read retention to move forward with. For this data set this correlates to test 5 ((see [18s_qiime2_output_summary.csv](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/18s_qiime2_output_summary.csv)).<br>
-Files moving foward with are as follows:<br>
+**Compare Among Tests**
+Choose the approach that detected the highest number of features with the largest read retention to move forward with. For this data set this correlates to test 5 ((see [18s_qiime2_output_summary.csv](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/18s_qiime2_output_summary.csv)).<br><br>
+Files moving foward with are as follows:
 1. Feature table: fwd-table.qza
 2. Representative Sequences: fwd-rep-seqs.qza
 All other files were moved to "tests" directory for efficiency.
@@ -380,7 +378,7 @@ qiime feature-table tabulate-seqs \
 ```
 NOTE: The denoising statistics file (fwd-stats.qza) is still applicable to the OTU table :)<br>
 ## STEP 6 (OPTIONAL!): Export Feature Table For Culling
-Preliminary culling thresholds were observed using the feature table while taxonomic assignment runs. The final asv and sample culling was performed once the final taxa table was created. See [QIIME2_SOP.md](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/QIIME 2_SOP.md) for more  details on this step.<br><br>
+Preliminary culling thresholds were observed using the feature table while taxonomic assignment runs. The final asv and sample culling was performed once the final taxa table was created. See [QIIME2_SOP.md](https://github.com/alliemeetsfungi/qiime2_amplicon_cleanup/blob/main/QIIME2_SOP.md) for more  details on this step.<br><br>
 Export feature table (QIIME 2 table.qza = feature table):
 ```
 qiime tools export \
@@ -406,7 +404,7 @@ scp alliej@koa.its.hawaii.edu:/home/alliej/hynson_koastore/ajhall/bros/clean/ssu
 Feature table was then imported into R Studio for preliminary culling using Phyloseq.<br>
 ## STEP 7: Import Databases For Taxonomic Identification
 This dataset will use tje Eukaryome Version 2.0, NCBI, and SILVA Version 138.2 databases for taxonomic assignment.<br><br>
-Import Eukaryome V2.0
+<ins>Import Eukaryome V2.0</ins> using files downloaded from the Eukaryome webpage.
 ```
 #import reference sequences
 qiime tools import --type 'FeatureData[Sequence]' \
@@ -421,7 +419,7 @@ qiime tools import --type 'FeatureData[Taxonomy]' \
 ```
 <br>
 
-Import NCBI using RESCRIPt to pull both the reference sequences and taxonomy:
+<ins>Import NCBI</ins> using RESCRIPt to pull both the reference sequences and taxonomy:
 ```
 qiime rescript get-ncbi-data \
   --p-query '18S[ALL] AND fungi[ORGN]' \
@@ -431,7 +429,7 @@ qiime rescript get-ncbi-data \
 ```
 <br>
 
-Import SILVA 138.2 using RESCRIPt to pull both the reference sequences and taxonomy (see [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details:
+<ins>Import SILVA 138.2</ins> using RESCRIPt to pull both the reference sequences and taxonomy (see [THIS](https://forum.qiime2.org/t/sequence-and-taxonomy-files-for-silva-v138-2/33475) forum for more details:
 ```
 qiime rescript get-silva-data \
   --p-version '138.2' \
@@ -452,7 +450,7 @@ Databases only need to be imported once to make the .qza files, afterwards this 
 ## STEP 8: Taxonomic Assignment To Features
 The same taxonomic approach was used for OTU taxonomic assignment with all but SILVA 95% contributing towards the taxa table. Output directory and files were saved to the taxa_id/ssu/otu directory.
 
-**STEP 8.1  Eukaryome**
+**STEP 8.1 - Eukaryome**<br>
 <ins>95% ID</ins><br>
 95% identity = --p-perc-identity 0.95<br>
 90% query coverage = --p-query-cov 0.90 (ALWAYS)
@@ -517,9 +515,9 @@ qiime taxa filter-seqs \
   --o-filtered-sequences taxa_id/ssu/euk-80/unassigned-rep-seqs.qza
 ```
 Run the remaining unassignd sequences through the next databse!<br><br>
-**STEP 8.2 NCBI**
-<br><ins>95% ID</ins>
+**STEP 8.2 - NCBI**
 ```
+# 95% ID
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/euk-80/unassigned-rep-seqs.qza \ #use final unnassigned rep-seqs.qza file from previous database search
   --i-reference-reads database_files/ncbi-fungi-ref-seqs.qza \ #change to new database ref-seqs.qza
@@ -537,9 +535,9 @@ qiime taxa filter-seqs \
   --i-taxonomy taxa_id/ssu/ncbi-95/classification.qza \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/ncbi-95/unassigned-rep-seqs.qza
-```
-<br><ins>90% ID</ins>
-```
+
+
+# 90% ID
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/ncbi-95/unassigned-rep-seqs.qza \
   --i-reference-reads database_files/ncbi-fungi-ref-seqs.qza \
@@ -557,9 +555,9 @@ qiime taxa filter-seqs \
   --i-taxonomy taxa_id/ssu/ncbi-90/classification.qza \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/ncbi-90/unassigned-rep-seqs.qza
-```
-<br><ins>80% ID</ins>
-```
+
+
+# 80% ID
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/ncbi-90/unassigned-rep-seqs.qza \
   --i-reference-reads database_files/ncbi-fungi-ref-seqs.qza \
@@ -579,9 +577,9 @@ qiime taxa filter-seqs \
   --o-filtered-sequences taxa_id/ssu/ncbi-80/unassigned-rep-seqs.qza
 ```
 Run the remaining unassignd sequences through the next databse.<br><br>
-**STEP 8.3 SILVA 138.2**
-<br><ins>95% ID</ins>
+**STEP 8.3 - SILVA 138.2**
 ```
+# 95% ID
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/ncbi-80/unassigned-rep-seqs.qza \
   --i-reference-reads database_files/silva-138.2-ref-seqs.qza \
@@ -599,9 +597,9 @@ qiime taxa filter-seqs \
   --i-taxonomy taxa_id/ssu/silva-95/classification.qza \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/silva-95/unassigned-rep-seqs.qza
-```
-<br><ins>90% ID</ins>
-```
+
+
+# 90% ID
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/silva-95/unassigned-rep-seqs.qza \
   --i-reference-reads database_files/silva-138.2-ref-seqs.qza \
@@ -619,9 +617,9 @@ qiime taxa filter-seqs \
   --i-taxonomy taxa_id/ssu/silva-90/classification.qza \
   --p-include unassigned \
   --o-filtered-sequences taxa_id/ssu/silva-90/unassigned-rep-seqs.qza
-```
-<br><ins>80% ID</ins>
-```
+
+
+# 80% ID
 qiime feature-classifier classify-consensus-blast \
   --i-query taxa_id/ssu/silva-90/unassigned-rep-seqs.qza \
   --i-reference-reads database_files/silva-138.2-ref-seqs.qza \
@@ -645,8 +643,8 @@ qiime taxa filter-seqs \
 ## STEP 9 (OPTIONAL!): Filtering Feature Tables
 Filter final ASV table to make tables containing all identified and not identified features.
 <br>NOTE: Final ASV table should only be used for initial filtering, use the unassigned output file for each filtering run for subsequent filtering steps.<br><br>
-**STEP 9.1 Eukaryome**
-95% ID: filter for assigned vs unassigned from the original dada2 table (trimmed-table.qza)
+**STEP 9.1 - Eukaryome**<br>
+<ins>95% ID:</ins> filter for assigned vs unassigned from the original dada2 table (trimmed-table.qza)
 ```
 qiime taxa filter-table \
   --i-table clean/ssu/denoise/fwd-table.qza \
@@ -660,7 +658,7 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/euk-95/unassigned-table.qza
 ```
-90% ID: use resulting unassigned-table.qza as input table
+<ins>90% ID:</ins> use resulting unassigned-table.qza as input table
 ```
 qiime taxa filter-table \
   --i-table taxa_id/ssu/euk-95/unassigned-table.qza \
@@ -674,7 +672,7 @@ qiime taxa filter-table \
   --p-include unassigned \
   --o-filtered-table taxa_id/ssu/euk-90/unassigned-table.qza
 ```
-80% ID
+<ins>80% ID</ins>
 ```
 qiime taxa filter-table \
   --i-table taxa_id/ssu/euk-90/unassigned-table.qza \
@@ -690,7 +688,7 @@ qiime taxa filter-table \
 ```
 <br>
 
-**STEP 9.2 NCBI**
+**STEP 9.2 - NCBI**<br>
 Use the resulting unassigned-table.qza table that holds the remaining unassigned features after eukaryome 80%
 ```
 # 95% ID
@@ -736,7 +734,7 @@ qiime taxa filter-table \
 ```
 <br>
 
-**STEP 9.3 SILVA**
+**STEP 9.3 - SILVA**<br>
 Use the resulting unassigned-table.qza table that holds the remaining unassigned features after NCBI 80%
 ```
 # 95% ID
@@ -782,7 +780,7 @@ qiime taxa filter-table \
 ```
 <br>
 
-**STEP 9.4 Merge Tables**
+**STEP 9.4 - Merge Tables**<br>
 Combine all assigned-table.qza files to make a single table containing all assigned features:
 ```
 qiime feature-table merge \
@@ -841,7 +839,7 @@ Reads: 5,032,398<br>
 Samples: 339<br>
 Features: 682<br>
 Reads: 85,882<br>
-3. #ssu-otu-all-table.qza
+3. ssu-otu-all-table.qza
 Samples: 455<br>
 Features: 4,823<br>
 Reads: 5,118,280<br>
